@@ -1,0 +1,310 @@
+openapi: 3.0.3
+info:
+  title: Job offer Service
+  version: 1.0.1
+tags:
+  - name: Basic
+    description: Basic CRUD operations on Job offers
+components:
+  schemas:
+    JobOffer:
+      type: object
+      properties:
+        companyName:
+          type: string
+        city:
+          type: string
+        street:
+          type: string
+        description:
+          type: string
+        remoteInterview:
+          type: boolean
+        experienceLevel:
+          type: string
+        mainTechnology:
+          type: string
+        employments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employment'
+        operatingModes:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          maxItems: 3
+        requiredSkills:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequiredSkill'
+          maxItems: 10
+          minItems: 1
+        applyUrl:
+          type: string
+        contactEmail:
+          type: string
+        contactName:
+          type: string
+        contactPhone:
+          type: string
+
+      required:
+        - companyName
+        - city
+        - street
+        - description
+        - operatingModes
+        - employments
+        - contactName
+        - contactEmail
+        - requiredSkills
+        - experienceLevel
+        - mainTechnology
+
+    Employment:
+      type: object
+      properties:
+        type:
+          type: string
+        from:
+          type: number
+          format: double
+        to:
+          type: number
+          format: double
+        currency:
+          type: string
+      required:
+        - type
+        - currency
+    RequiredSkill:
+      type: object
+      properties:
+        name:
+          type: string
+        level:
+          type: integer
+          minimum: 1
+          maximum: 5
+      required:
+        - name
+        - level
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+          enum:
+            - OFFER_NOT_FOUND
+            - MISSING_COMPANY_NAME
+            - MISSING_CONTENT
+      required:
+        - message
+        - code
+    JobOfferMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
+  examples:
+    MaximalJobOffer:
+      value:
+        companyName: "Some company name"
+        city: "Some city"
+        street: "Some street"
+        description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        remoteInterview: true
+        experienceLevel: senior
+        mainTechnology: java
+        employments:
+          - type: permanent
+            from: 10000
+            to: 15000
+            currency: pln
+          - type: internship
+            from: 10000
+            to: 15000
+            currency: pln
+        operatingMode:
+          - remote
+          - hybrid
+          - office
+        requiredSkills:
+          - name: java
+            level: 5
+        applyUrl: http://example.com
+        contactName: John Doe
+        contactEmail: contac@email.com
+        contactPhone: "48123321123"
+    MinimalJobOffer:
+      value:
+        companyName: "Some company name"
+        city: "Some city"
+        street: "Some street"
+        description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        experienceLevel: senior
+        mainTechnology: java
+        employments:
+          - type: permanent
+            currency: pln
+        operatingMode:
+          - office
+        requiredSkills:
+          - name: java
+            level: 5
+        contactName: John Doe
+        contactEmail: contac@email.com
+        contactPhone: "48123321123"
+  parameters:
+    query-param-job-offer-skill:
+      name: skill
+      description: Skill filter
+      in: query
+      required: false
+      schema:
+        type: string
+    query-param-job-offer-experience:
+      name: experience
+      description: Experience filter
+      in: query
+      required: false
+      schema:
+        type: string
+    path-param-job-offer-id:
+      name: id
+      description: Job offer id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+paths:
+  /job-offers:
+    get:
+      operationId: findJobOffers
+      parameters:
+        - $ref: '#/components/parameters/query-param-job-offer-skill'
+        - $ref: '#/components/parameters/query-param-job-offer-experience'
+      summary: Searches for job offers by parameter and returns an Array
+      tags:
+        - Basic
+      responses:
+        '200':
+          description: Array of found job offers
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobOffer'
+              examples:
+                MaxJobOffer:
+                  $ref: '#/components/examples/MaximalJobOffer'
+                MinimalJobOffer:
+                  $ref: '#/components/examples/MinimalJobOffer'
+  /job-offer:
+    post:
+      operationId: createJobOffer
+      tags:
+        - Basic
+      summary: Creates a new job offer
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/JobOffer'
+            examples:
+              MaximalJobOffer:
+                $ref: '#/components/examples/MaximalJobOffer'
+              MinimalJobOffer:
+                $ref: '#/components/examples/MinimalJobOffer'
+      responses:
+        '201':
+          description: Job offer was created with following ID
+          headers:
+            location:
+              schema:
+                type: string
+              description: URL of created job offer
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/JobOfferMetadata'
+              example:
+                id: "1020x20"
+        '400':
+          description: There was a problem with a request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'
+  /job-offer/{id}:
+    delete:
+      operationId: deleteJobOffer
+      summary: Deletes a job offer
+      tags:
+        - Basic
+      parameters:
+        - $ref: '#/components/parameters/path-param-job-offer-id'
+      responses:
+        '200':
+          description: Job offer has been deleted
+        '404':
+          description: Job offer does not exist
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateJobOffer
+      summary: Updates an job offer
+      tags:
+        - Basic
+      parameters:
+        - $ref: '#/components/parameters/path-param-job-offer-id'
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/JobOffer'
+            examples:
+              MaximalJobOffer:
+                $ref: '#/components/examples/MaximalJobOffer'
+              MinimalJobOffer:
+                $ref: '#/components/examples/MinimalJobOffer'
+      responses:
+        '200':
+          description: Job offer has been updated
+        '404':
+          description: Job offer does not exist
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: findJobOffer
+      summary: Returns an job offer
+      tags:
+        - Basic
+      parameters:
+        - $ref: '#/components/parameters/path-param-job-offer-id'
+      responses:
+        '200':
+          description: Job offer has been found and returned
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/JobOffer'
+        '404':
+          description: Job offer does not exist
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'

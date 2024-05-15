@@ -1,0 +1,14 @@
+services:
+  postgresql:
+    container_name: job-offer-service-postgres
+    image: postgres:16
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: job_offer_service
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./postgres-data/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
