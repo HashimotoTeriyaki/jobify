@@ -1,6 +1,5 @@
 package com.webwizard.jobofferservice.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +17,7 @@ public class OfferOperatingMode {
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "operating_mode_id")
     private OperatingMode operatingMode;
 }

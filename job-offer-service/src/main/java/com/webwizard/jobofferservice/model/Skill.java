@@ -1,6 +1,5 @@
 package com.webwizard.jobofferservice.model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;

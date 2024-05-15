@@ -29,6 +29,7 @@ public class JobOfferService {
     private OperatingModeMapper operatingModeMapper;
     private JobOfferMapper jobOfferMapper;
 
+
     @Transactional
     public JobOfferMetadataDto createJobOffer(JobOfferDto jobOfferDto) {
         log.info("Creating job offer...");

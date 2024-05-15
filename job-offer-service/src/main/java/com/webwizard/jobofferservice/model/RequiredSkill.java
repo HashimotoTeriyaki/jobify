@@ -16,7 +16,7 @@ public class RequiredSkill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "skill_id")
     private Skill skill;
 

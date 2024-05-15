@@ -19,4 +19,3 @@ public class ExperienceLevel {
 
     private String description;
 }
- 

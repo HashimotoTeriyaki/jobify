@@ -46,11 +46,11 @@ public class JobOffer {
 
     private boolean remoteInterview;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "main_technology_id")
     private MainTechnology mainTechnology;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "experience_level_id")
     private ExperienceLevel experienceLevel;
 
@@ -74,7 +74,7 @@ public class JobOffer {
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(insertable = false, nullable = false)
+    @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
     @OneToMany(cascade = CascadeType.PERSIST)

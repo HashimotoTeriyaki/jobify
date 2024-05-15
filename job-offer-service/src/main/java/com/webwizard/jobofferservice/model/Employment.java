@@ -22,11 +22,11 @@ public class Employment {
     @Min(value = 1)
     private double salaryTo;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "employment_type_id")
     private EmploymentType employmentType;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "currency_id")
     private Currency currency;
 }
