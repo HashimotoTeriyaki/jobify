@@ -26,6 +26,11 @@ public class JobOffer {
 
     @NotBlank
     @NotNull
+    @Size(max = 100, message = "Job offer title must be in 1 - 100 characters range")
+    private String title;
+
+    @NotBlank
+    @NotNull
     @Size(max = 20, message = "Company name must be less than or equal to 20 characters")
     private String companyName;
 
@@ -49,6 +54,10 @@ public class JobOffer {
     @ManyToOne
     @JoinColumn(name = "main_technology_id")
     private MainTechnology mainTechnology;
+
+    @ManyToOne
+    @JoinColumn(name = "type_of_work_id")
+    private TypeOfWork typeOfWork;
 
     @ManyToOne
     @JoinColumn(name = "experience_level_id")

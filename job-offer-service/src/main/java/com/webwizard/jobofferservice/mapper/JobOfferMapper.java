@@ -10,17 +10,20 @@ import java.util.List;
 public interface JobOfferMapper {
 
     @Mapping(source = "mainTechnology", target = "mainTechnology")
+    @Mapping(source = "typeOfWork", target = "typeOfWork")
     @Mapping(source = "experienceLevel", target = "experienceLevel")
     @Mapping(source = "offerOperatingModes", target = "offerOperatingModes")
     @Mapping(source = "requiredSkills", target = "requiredSkills")
     @Mapping(source = "employments", target = "employments")
+    @Mapping(source = "jobOfferDto.title", target = "title")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "description", source = "jobOfferDto.description")
-    @Mapping(target = "createdDate", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "lastModifiedDate", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(source = "jobOfferDto.description", target = "description")
+    @Mapping(expression = "java(java.time.LocalDateTime.now())", target = "createdDate")
+    @Mapping(expression = "java(java.time.LocalDateTime.now())", target = "lastModifiedDate")
     JobOffer mapToEntity(
             JobOfferDto jobOfferDto,
             MainTechnology mainTechnology,
+            TypeOfWork typeOfWork,
             ExperienceLevel experienceLevel,
             List<OfferOperatingMode> offerOperatingModes,
             List<RequiredSkill> requiredSkills,

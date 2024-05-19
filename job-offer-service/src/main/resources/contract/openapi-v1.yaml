@@ -10,6 +10,8 @@ components:
     JobOffer:
       type: object
       properties:
+        title:
+          type: string
         companyName:
           type: string
         city:
@@ -21,9 +23,11 @@ components:
         remoteInterview:
           type: boolean
         experienceLevel:
-          type: string
+          $ref: '#/components/schemas/ExperienceLevel'
         mainTechnology:
           type: string
+        typeOfWork:
+          $ref: '#/components/schemas/TypeOfWork'
         employments:
           type: array
           items:
@@ -31,7 +35,7 @@ components:
         operatingModes:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/OperatingMode'
           minItems: 1
           maxItems: 3
         requiredSkills:
@@ -50,9 +54,11 @@ components:
           type: string
 
       required:
+        - title
         - companyName
         - city
         - street
+        - typeOfWork
         - description
         - operatingModes
         - employments
@@ -67,14 +73,18 @@ components:
       properties:
         type:
           type: string
+          enum:
+            - b2b
+            - permanent
+            - mandate
+            - specific_task
+            - internship
         from:
-          type: number
-          format: double
+          type: integer
         to:
-          type: number
-          format: double
+          type: integer
         currency:
-          type: string
+          $ref: '#/components/schemas/Currency'
       required:
         - type
         - currency
@@ -83,6 +93,30 @@ components:
       properties:
         name:
           type: string
+          enum:
+            - js
+            - html
+            - php
+            - ruby
+            - python
+            - java
+            - .net
+            - scala
+            - c
+            - mobile
+            - testing
+            - devops
+            - admin
+            - uxui
+            - pm
+            - game
+            - analytics
+            - security
+            - data
+            - go
+            - support
+            - erp
+            - architecture
         level:
           type: integer
           minimum: 1
@@ -90,6 +124,33 @@ components:
       required:
         - name
         - level
+    OperatingMode:
+      type: string
+      enum:
+        - remote
+        - hybrid
+        - office
+    ExperienceLevel:
+      type: string
+      enum:
+        - junior
+        - mid
+        - senior
+        - lead
+    TypeOfWork:
+      type: string
+      enum:
+        - full_time
+        - part_time
+        - internship
+        - freelance
+    Currency:
+      type: string
+      enum:
+        - pln
+        - eur
+        - usd
+        - gbp
     Error:
       type: object
       properties:
@@ -98,9 +159,9 @@ components:
         code:
           type: string
           enum:
+            - MISSING_CONTENT
             - OFFER_NOT_FOUND
             - MISSING_COMPANY_NAME
-            - MISSING_CONTENT
       required:
         - message
         - code
@@ -114,6 +175,7 @@ components:
   examples:
     MaximalJobOffer:
       value:
+        title: "Senior Java developer needed asap"
         companyName: "Some company name"
         city: "Some city"
         street: "Some street"
@@ -121,16 +183,17 @@ components:
         remoteInterview: true
         experienceLevel: senior
         mainTechnology: java
+        typeOfWork: full_time
         employments:
+          - type: b2b
+            from: 130000
+            to: 15000
+            currency: pln
           - type: permanent
-            from: 10000
-            to: 15000
+            from: 100000
+            to: 13000
             currency: pln
-          - type: internship
-            from: 10000
-            to: 15000
-            currency: pln
-        operatingMode:
+        operatingModes:
           - remote
           - hybrid
           - office
@@ -143,16 +206,18 @@ components:
         contactPhone: "48123321123"
     MinimalJobOffer:
       value:
+        title: "Senior Java developer needed asap"
         companyName: "Some company name"
         city: "Some city"
         street: "Some street"
         description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
         experienceLevel: senior
         mainTechnology: java
+        typeOfWork: part_time
         employments:
           - type: permanent
             currency: pln
-        operatingMode:
+        operatingModes:
           - office
         requiredSkills:
           - name: java
@@ -161,9 +226,34 @@ components:
         contactEmail: contac@email.com
         contactPhone: "48123321123"
   parameters:
-    query-param-job-offer-skill:
+    query-param-type-of-work:
+      name: type-of-work
+      description: Work type filter
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - full_time
+          - part_time
+          - internship
+          - freelance
+    query-param-job-offer-employment-type:
+      name: employment-type
+      description: Employment type filter
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - b2b
+          - permanent
+          - internship
+          - mandate
+          - specific_task
+    query-param-job-offer-main-skill:
       name: skill
-      description: Skill filter
+      description: Main skill filter
       in: query
       required: false
       schema:
@@ -175,6 +265,36 @@ components:
       required: false
       schema:
         type: string
+        enum:
+          - junior
+          - mid
+          - senior
+          - lead
+    query-param-operating-mode:
+      name: operating-mode
+      description: Operating mode filter
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - remote
+          - hybrid
+          - office
+    query-param-salary-min:
+      name: salary-min
+      description: Minimal salary filter
+      in: query
+      required: false
+      schema:
+        type: integer
+    query-param-salary-max:
+      name: salary-max
+      description: Maximal salary filter
+      in: query
+      required: false
+      schema:
+        type: integer
     path-param-job-offer-id:
       name: id
       description: Job offer id
@@ -188,8 +308,13 @@ paths:
     get:
       operationId: findJobOffers
       parameters:
-        - $ref: '#/components/parameters/query-param-job-offer-skill'
+        - $ref: '#/components/parameters/query-param-salary-min'
+        - $ref: '#/components/parameters/query-param-salary-max'
+        - $ref: '#/components/parameters/query-param-job-offer-main-skill'
+        - $ref: '#/components/parameters/query-param-job-offer-employment-type'
         - $ref: '#/components/parameters/query-param-job-offer-experience'
+        - $ref: '#/components/parameters/query-param-operating-mode'
+        - $ref: '#/components/parameters/query-param-type-of-work'
       summary: Searches for job offers by parameter and returns an Array
       tags:
         - Basic

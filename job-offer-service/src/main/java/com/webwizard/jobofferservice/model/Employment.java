@@ -1,7 +1,6 @@
 package com.webwizard.jobofferservice.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Getter
@@ -16,11 +15,9 @@ public class Employment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Min(value = 1)
-    private double salaryFrom;
+    private int salaryFrom;
 
-    @Min(value = 1)
-    private double salaryTo;
+    private int salaryTo;
 
     @ManyToOne
     @JoinColumn(name = "employment_type_id")

@@ -23,12 +23,12 @@ public class JobOfferService {
     private final EmploymentTypeRepository employmentTypeRepository;
     private final ExperienceLevelRepository experienceLevelRepository;
     private final OperatingModeRepository operatingModeRepository;
+    private final TypeOfWorkRepository typeOfWorkRepository;
 
     private EmploymentMapper employmentMapper;
     private RequiredSkillMapper requiredSkillMapper;
     private OperatingModeMapper operatingModeMapper;
     private JobOfferMapper jobOfferMapper;
-
 
     @Transactional
     public JobOfferMetadataDto createJobOffer(JobOfferDto jobOfferDto) {
@@ -40,7 +40,8 @@ public class JobOfferService {
 
     private JobOffer mapJobOfferToEntity(JobOfferDto jobOfferDto) {
         MainTechnology mainTechnology = mainTechnologyRepository.findFirstByName(jobOfferDto.getMainTechnology().toUpperCase());
-        ExperienceLevel experienceLevel = experienceLevelRepository.findFirstByLevel(jobOfferDto.getExperienceLevel());
+        TypeOfWork typeOfWork = typeOfWorkRepository.findFirstByName(jobOfferDto.getTypeOfWork().getValue().toUpperCase());
+        ExperienceLevel experienceLevel = experienceLevelRepository.findFirstByLevel(jobOfferDto.getExperienceLevel().getValue().toUpperCase());
         List<OfferOperatingMode> operatingModes = mapOperatingModes(jobOfferDto.getOperatingModes());
         List<Employment> employments = mapEmployments(jobOfferDto.getEmployments());
         List<RequiredSkill> requiredSkills = mapRequiredSkills(jobOfferDto.getRequiredSkills());
@@ -48,6 +49,7 @@ public class JobOfferService {
         return jobOfferMapper.mapToEntity(
                 jobOfferDto,
                 mainTechnology,
+                typeOfWork,
                 experienceLevel,
                 operatingModes,
                 requiredSkills,
@@ -58,8 +60,10 @@ public class JobOfferService {
     private List<Employment> mapEmployments(List<EmploymentDto> employments) {
         return employments.stream().map(
                 employmentDto -> employmentMapper.toEntity(employmentDto,
-                        currencyRepository.findFirstByName(employmentDto.getCurrency().toUpperCase()),
-                        employmentTypeRepository.findFirstByName(employmentDto.getType().toUpperCase())
+                        currencyRepository.findFirstByName(employmentDto.getCurrency().getValue().toUpperCase()),
+                        employmentTypeRepository.findFirstByName(employmentDto.getType()
+                                .toString().toUpperCase()
+                        )
                 )
         ).toList();
     }
@@ -67,15 +71,18 @@ public class JobOfferService {
     private List<RequiredSkill> mapRequiredSkills(List<RequiredSkillDto> requiredSkills) {
         return requiredSkills.stream().map(
                 requiredSkillDto -> requiredSkillMapper.toEntity(requiredSkillDto,
-                        skillRepository.findFirstByName(requiredSkillDto.getName().toUpperCase())
+                        skillRepository.findFirstByName(requiredSkillDto.getName()
+                                .getValue().toUpperCase()
+                        )
                 )
         ).toList();
     }
 
-    private List<OfferOperatingMode> mapOperatingModes(List<String> operatingModes) {
+    private List<OfferOperatingMode> mapOperatingModes(List<OperatingModeDto> operatingModes) {
         return operatingModes.stream().map(
                 operatingModeDto -> operatingModeMapper.toEntity(
-                        operatingModeRepository.findFirstByName(operatingModeDto.toUpperCase())
+                        operatingModeRepository.findFirstByName(
+                                operatingModeDto.getValue().toUpperCase())
                 )
         ).toList();
     }
