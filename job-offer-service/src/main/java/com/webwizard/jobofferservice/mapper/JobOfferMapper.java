@@ -1,12 +1,12 @@
 package com.webwizard.jobofferservice.mapper;
 
 import com.webwizard.jobofferservice.model.*;
-import com.webwizard.jobofferservice.openapi.v1.model.JobOfferDto;
+import com.webwizard.jobofferservice.openapi.v1.model.*;
 import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = EmploymentMapper.class)
+@Mapper(componentModel = "spring", uses = {EmploymentMapper.class, OperatingModeMapper.class, RequiredSkillMapper.class})
 public interface JobOfferMapper {
 
     @Mapping(source = "mainTechnology", target = "mainTechnology")
@@ -20,7 +20,7 @@ public interface JobOfferMapper {
     @Mapping(source = "jobOfferDto.description", target = "description")
     @Mapping(expression = "java(java.time.LocalDateTime.now())", target = "createdDate")
     @Mapping(expression = "java(java.time.LocalDateTime.now())", target = "lastModifiedDate")
-    JobOffer mapToEntity(
+    JobOffer toEntity(
             JobOfferDto jobOfferDto,
             MainTechnology mainTechnology,
             TypeOfWork typeOfWork,
@@ -29,4 +29,27 @@ public interface JobOfferMapper {
             List<RequiredSkill> requiredSkills,
             List<Employment> employments
     );
+
+    @Mapping(source = "mainTechnology", target = "mainTechnology", qualifiedByName = "mainTechnology")
+    @Mapping(source = "experienceLevel", target = "experienceLevel", qualifiedByName = "experienceLevel")
+    @Mapping(source = "typeOfWork", target = "typeOfWork", qualifiedByName = "typeOfWork")
+    @Mapping(source = "offerOperatingModes", target = "operatingModes")
+    FetchedJobOfferDto mapToDto(JobOffer jobOffer);
+
+    List<FetchedJobOfferDto> toDto(List<JobOffer> requiredSkills);
+
+    @Named("mainTechnology")
+    default String mapMainTechnology(MainTechnology mainTechnology) {
+        return mainTechnology.getName().toLowerCase();
+    }
+
+    @Named("experienceLevel")
+    default ExperienceLevelDto mapExperienceLevel(ExperienceLevel experienceLevel) {
+        return ExperienceLevelDto.fromValue(experienceLevel.getLevel().toLowerCase());
+    }
+
+    @Named("typeOfWork")
+    default TypeOfWorkDto mapTypeOfWork(TypeOfWork typeOfWork) {
+        return TypeOfWorkDto.fromValue(typeOfWork.getName().toLowerCase());
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -20,9 +21,16 @@ public class BasicApiDelegateImpl implements BasicApiDelegate {
     @Override
     public ResponseEntity<JobOfferMetadataDto> createJobOffer(JobOfferDto jobOfferDto) {
         var jobOfferMetaData = jobOfferService.createJobOffer(jobOfferDto);
-        log.info("New job offer created! id:{}", jobOfferMetaData.getId());
         return ResponseEntity
                 .created(URI.create("job-offer/" + jobOfferMetaData.getId()))
                 .body(jobOfferMetaData);
+    }
+
+    @Override
+    public ResponseEntity<List<FetchedJobOfferDto>> findJobOffers(Integer salaryMin, Integer salaryMax, String skill, String employmentType, String experience, String operatingMode, String typeOfWork) {
+        List<FetchedJobOfferDto> jobOffers = jobOfferService.findOfferByFilters(salaryMin, salaryMax, skill, employmentType, experience, operatingMode, typeOfWork);
+        return ResponseEntity
+                .ok()
+                .body(jobOffers);
     }
 }

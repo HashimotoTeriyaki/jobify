@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
+//TODO implement tests
 public class JobOfferService {
 
     private final SkillRepository skillRepository;
@@ -25,28 +26,46 @@ public class JobOfferService {
     private final OperatingModeRepository operatingModeRepository;
     private final TypeOfWorkRepository typeOfWorkRepository;
 
-    private EmploymentMapper employmentMapper;
-    private RequiredSkillMapper requiredSkillMapper;
-    private OperatingModeMapper operatingModeMapper;
     private JobOfferMapper jobOfferMapper;
+    private final EmploymentMapper employmentMapper;
+    private final RequiredSkillMapper requiredSkillMapper;
+    private final OperatingModeMapper operatingModeMapper;
+
+    private final JobOfferSearchDao jobOfferSearchDao;
 
     @Transactional
     public JobOfferMetadataDto createJobOffer(JobOfferDto jobOfferDto) {
-        log.info("Creating job offer...");
+        log.info("Creating job offer with title: {}...", jobOfferDto.getTitle());
         JobOffer jobOffer = mapJobOfferToEntity(jobOfferDto);
         JobOffer savedJobOffer = jobOfferRepository.save(jobOffer);
+        log.info("New job offer created! id: {}", savedJobOffer.getId());
         return new JobOfferMetadataDto(String.valueOf(savedJobOffer.getId()));
     }
 
-    private JobOffer mapJobOfferToEntity(JobOfferDto jobOfferDto) {
-        MainTechnology mainTechnology = mainTechnologyRepository.findFirstByName(jobOfferDto.getMainTechnology().toUpperCase());
-        TypeOfWork typeOfWork = typeOfWorkRepository.findFirstByName(jobOfferDto.getTypeOfWork().getValue().toUpperCase());
-        ExperienceLevel experienceLevel = experienceLevelRepository.findFirstByLevel(jobOfferDto.getExperienceLevel().getValue().toUpperCase());
-        List<OfferOperatingMode> operatingModes = mapOperatingModes(jobOfferDto.getOperatingModes());
-        List<Employment> employments = mapEmployments(jobOfferDto.getEmployments());
-        List<RequiredSkill> requiredSkills = mapRequiredSkills(jobOfferDto.getRequiredSkills());
+    public List<FetchedJobOfferDto> findOfferByFilters(
+            Integer salaryMin,
+            Integer salaryMax,
+            String skill,
+            String employmentType,
+            String experience,
+            String operatingMode,
+            String typeOfWork
+    ) {
+        log.info("Searching for job offers with filters...");
+        List<JobOffer> jobOffers = jobOfferSearchDao.findAllByFilters(salaryMin, salaryMax, skill, employmentType, experience, operatingMode, typeOfWork);
+        log.info("{} Job offer(s) found", jobOffers.size());
+        return jobOfferMapper.toDto(jobOffers);
+    }
 
-        return jobOfferMapper.mapToEntity(
+    private JobOffer mapJobOfferToEntity(JobOfferDto jobOfferDto) {
+        var mainTechnology = mainTechnologyRepository.findFirstByName(jobOfferDto.getMainTechnology().toUpperCase());
+        var typeOfWork = typeOfWorkRepository.findFirstByName(jobOfferDto.getTypeOfWork().getValue().toUpperCase());
+        var experienceLevel = experienceLevelRepository.findFirstByLevel(jobOfferDto.getExperienceLevel().getValue().toUpperCase());
+        var operatingModes = mapOperatingModes(jobOfferDto.getOperatingModes());
+        var requiredSkills = mapRequiredSkills(jobOfferDto.getRequiredSkills());
+        var employments = mapEmployments(jobOfferDto.getEmployments());
+
+        return jobOfferMapper.toEntity(
                 jobOfferDto,
                 mainTechnology,
                 typeOfWork,

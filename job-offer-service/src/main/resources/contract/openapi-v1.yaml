@@ -172,6 +172,55 @@ components:
           type: string
       required:
         - id
+    FetchedJobOffer:
+      type: object
+      properties:
+        title:
+          type: string
+        companyName:
+          type: string
+        city:
+          type: string
+        street:
+          type: string
+        description:
+          type: string
+        remoteInterview:
+          type: boolean
+        experienceLevel:
+          $ref: '#/components/schemas/ExperienceLevel'
+        mainTechnology:
+          type: string
+        typeOfWork:
+          $ref: '#/components/schemas/TypeOfWork'
+        employments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employment'
+        operatingModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperatingMode'
+          minItems: 1
+          maxItems: 3
+        requiredSkills:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequiredSkill'
+          maxItems: 10
+          minItems: 1
+      required:
+        - title
+        - companyName
+        - city
+        - street
+        - typeOfWork
+        - description
+        - operatingModes
+        - employments
+        - requiredSkills
+        - experienceLevel
+        - mainTechnology
   examples:
     MaximalJobOffer:
       value:
@@ -326,7 +375,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/JobOffer'
+                  $ref: '#/components/schemas/FetchedJobOffer'
               examples:
                 MaxJobOffer:
                   $ref: '#/components/examples/MaximalJobOffer'

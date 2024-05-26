@@ -20,7 +20,7 @@ public class Routes {
         return GatewayRouterFunctions.route("job_offer_service")
                 .route(path("job-offer"),
                         http(HOST + port))
-                .route(path("/job-offer/{id}"),
+                .route(path("/job-offers"),
                         http(HOST + port))
                 .build();
     }
