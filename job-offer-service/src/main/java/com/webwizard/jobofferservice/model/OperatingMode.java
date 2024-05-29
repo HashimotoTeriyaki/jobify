@@ -1,6 +1,7 @@
 package com.webwizard.jobofferservice.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -15,5 +16,11 @@ public class OperatingMode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank
+    @Size(max = 25)
     private String name;
+
+    @NotBlank
+    @Size(max = 255)
+    private String description;
 }

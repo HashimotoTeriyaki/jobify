@@ -2,6 +2,7 @@ package com.webwizard.jobofferservice.model;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
@@ -25,31 +26,31 @@ public class JobOffer {
     private Integer id;
 
     @NotBlank
-    @NotNull
-    @Size(max = 100, message = "Job offer title must be in 1 - 100 characters range")
+    @Size(max = 100)
     private String title;
 
     @NotBlank
-    @NotNull
-    @Size(max = 20, message = "Company name must be less than or equal to 20 characters")
+    @Size(max = 100)
     private String companyName;
 
     @NotBlank
-    @NotNull
-    @Size(max = 20, message = "City name must be less than or equal to 20 characters")
+    @Size(max = 50)
     private String city;
 
     @NotBlank
-    @NotNull
-    @Size(max = 20, message = "City name must be less than or equal to 20 characters")
+    @Size(max = 50)
     private String street;
 
     @NotBlank
-    @NotNull
-    @Size(max = 4400, message = "Description must be less than or equal to 4400 characters")
+    @Size(max = 4400)
     private String description;
 
     private boolean remoteInterview;
+
+    @ManyToOne
+    @JoinColumn(name = "contact_id")
+    @Valid
+    private Contact contact;
 
     @ManyToOne
     @JoinColumn(name = "main_technology_id")
@@ -65,18 +66,12 @@ public class JobOffer {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "job_offer_id")
-    @NotNull
+    @NotEmpty
+    @Valid
     private List<OfferOperatingMode> offerOperatingModes = new ArrayList<>();
 
     @URL(message = "Invalid URL format")
     private String applyUrl;
-
-    @NotBlank
-    @NotNull
-    @Email
-    private String contactEmail;
-
-    private String contactPhone;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -88,11 +83,12 @@ public class JobOffer {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "job_offer_id")
-    @NotNull
+    @NotEmpty
     private List<RequiredSkill> requiredSkills = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "job_offer_id")
-    @NotNull
+    @NotEmpty
+    @Valid
     private List<Employment> employments = new ArrayList<>();
 }

@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -25,11 +25,13 @@ public class JobOfferService {
     private final ExperienceLevelRepository experienceLevelRepository;
     private final OperatingModeRepository operatingModeRepository;
     private final TypeOfWorkRepository typeOfWorkRepository;
+    private final ContactRepository contactRepository;
 
-    private JobOfferMapper jobOfferMapper;
+    private final JobOfferMapper jobOfferMapper;
     private final EmploymentMapper employmentMapper;
     private final RequiredSkillMapper requiredSkillMapper;
     private final OperatingModeMapper operatingModeMapper;
+    private final ContactMapper contactMapper;
 
     private final JobOfferSearchDao jobOfferSearchDao;
 
@@ -49,7 +51,7 @@ public class JobOfferService {
             String employmentType,
             String experience,
             String operatingMode,
-            String typeOfWork
+             String typeOfWork
     ) {
         log.info("Searching for job offers with filters...");
         List<JobOffer> jobOffers = jobOfferSearchDao.findAllByFilters(salaryMin, salaryMax, skill, employmentType, experience, operatingMode, typeOfWork);
@@ -58,12 +60,13 @@ public class JobOfferService {
     }
 
     private JobOffer mapJobOfferToEntity(JobOfferDto jobOfferDto) {
-        var mainTechnology = mainTechnologyRepository.findFirstByName(jobOfferDto.getMainTechnology().toUpperCase());
+        var mainTechnology = mainTechnologyRepository.findFirstByName(jobOfferDto.getMainTechnology().getValue().toUpperCase());
         var typeOfWork = typeOfWorkRepository.findFirstByName(jobOfferDto.getTypeOfWork().getValue().toUpperCase());
         var experienceLevel = experienceLevelRepository.findFirstByLevel(jobOfferDto.getExperienceLevel().getValue().toUpperCase());
         var operatingModes = mapOperatingModes(jobOfferDto.getOperatingModes());
         var requiredSkills = mapRequiredSkills(jobOfferDto.getRequiredSkills());
         var employments = mapEmployments(jobOfferDto.getEmployments());
+        var contact = isNewContact(jobOfferDto.getContact());
 
         return jobOfferMapper.toEntity(
                 jobOfferDto,
@@ -72,8 +75,14 @@ public class JobOfferService {
                 experienceLevel,
                 operatingModes,
                 requiredSkills,
-                employments
+                employments,
+                contact
         );
+    }
+
+    protected Contact isNewContact(ContactDto contactDto) {
+        Optional<Contact> contact = contactRepository.findAllByPhoneAndEmail(contactDto.getPhone(), contactDto.getEmail());
+        return contact.orElseGet(() -> contactRepository.save(contactMapper.toEntity(contactDto)));
     }
 
     private List<Employment> mapEmployments(List<EmploymentDto> employments) {

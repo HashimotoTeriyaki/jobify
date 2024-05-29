@@ -20,6 +20,8 @@ public interface JobOfferMapper {
     @Mapping(source = "jobOfferDto.description", target = "description")
     @Mapping(expression = "java(java.time.LocalDateTime.now())", target = "createdDate")
     @Mapping(expression = "java(java.time.LocalDateTime.now())", target = "lastModifiedDate")
+    @Mapping(source = "contact", target = "contact")
+    @Mapping(source = "jobOfferDto.remoteInterview", target = "remoteInterview", defaultValue = "false")
     JobOffer toEntity(
             JobOfferDto jobOfferDto,
             MainTechnology mainTechnology,
@@ -27,20 +29,21 @@ public interface JobOfferMapper {
             ExperienceLevel experienceLevel,
             List<OfferOperatingMode> offerOperatingModes,
             List<RequiredSkill> requiredSkills,
-            List<Employment> employments
+            List<Employment> employments,
+            Contact contact
     );
 
     @Mapping(source = "mainTechnology", target = "mainTechnology", qualifiedByName = "mainTechnology")
     @Mapping(source = "experienceLevel", target = "experienceLevel", qualifiedByName = "experienceLevel")
     @Mapping(source = "typeOfWork", target = "typeOfWork", qualifiedByName = "typeOfWork")
     @Mapping(source = "offerOperatingModes", target = "operatingModes")
-    FetchedJobOfferDto mapToDto(JobOffer jobOffer);
+    FetchedJobOfferDto toDto(JobOffer jobOffer);
 
     List<FetchedJobOfferDto> toDto(List<JobOffer> requiredSkills);
 
     @Named("mainTechnology")
     default String mapMainTechnology(MainTechnology mainTechnology) {
-        return mainTechnology.getName().toLowerCase();
+        return mainTechnology.getName().toUpperCase();
     }
 
     @Named("experienceLevel")

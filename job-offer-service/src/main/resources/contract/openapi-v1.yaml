@@ -12,20 +12,30 @@ components:
       properties:
         title:
           type: string
+          minLength: 1
+          maxLength: 100
         companyName:
           type: string
+          minLength: 1
+          maxLength: 20
         city:
           type: string
+          minLength: 1
+          maxLength: 20
         street:
           type: string
+          minLength: 1
+          maxLength: 20
         description:
           type: string
+          minLength: 1
+          maxLength: 4400
         remoteInterview:
           type: boolean
         experienceLevel:
           $ref: '#/components/schemas/ExperienceLevel'
         mainTechnology:
-          type: string
+          $ref: '#/components/schemas/MainTechnology'
         typeOfWork:
           $ref: '#/components/schemas/TypeOfWork'
         employments:
@@ -42,16 +52,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RequiredSkill'
-          maxItems: 10
           minItems: 1
+          maxItems: 10
         applyUrl:
           type: string
-        contactEmail:
-          type: string
-        contactName:
-          type: string
-        contactPhone:
-          type: string
+        contact:
+          $ref: '#/components/schemas/Contact'
 
       required:
         - title
@@ -62,11 +68,10 @@ components:
         - description
         - operatingModes
         - employments
-        - contactName
-        - contactEmail
         - requiredSkills
         - experienceLevel
         - mainTechnology
+        - contact
 
     Employment:
       type: object
@@ -81,42 +86,795 @@ components:
             - internship
         from:
           type: integer
+          description: If client didn't provide salary range the API returns 0
         to:
           type: integer
+          description: If client didn't provide salary range the API returns 0
         currency:
           $ref: '#/components/schemas/Currency'
       required:
         - type
         - currency
+    Contact:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+        surname:
+          type: string
+          minLength: 3
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          minLength: 3
+          maxLength: 100
+        phone:
+          type: string
+          pattern: '^\+48\d{9}$'
+          minLength: 12
+          maxLength: 25
+      required:
+        - name
+        - surname
+        - email
+        - phone
+    MainTechnology:
+      type: string
+      enum:
+        - js
+        - html
+        - php
+        - ruby
+        - python
+        - java
+        - .net
+        - scala
+        - c
+        - mobile
+        - testing
+        - devops
+        - admin
+        - uxui
+        - pm
+        - game
+        - analytics
+        - security
+        - data
+        - go
+        - support
+        - erp
+        - architecture
     RequiredSkill:
       type: object
       properties:
         name:
           type: string
           enum:
-            - js
-            - html
-            - php
-            - ruby
-            - python
-            - java
             - .net
-            - scala
-            - c
-            - mobile
-            - testing
-            - devops
-            - admin
-            - uxui
-            - pm
-            - game
+            - .net_4.5
+            - .net_c#
+            - .net_core
+            - .net_framework
+            - .net_mvc
+            - 3d
+            - abap
+            - active_directory
+            - activemq
+            - adobe_cc
+            - adobe_creative_suite
+            - adobe_photoshop
+            - adobe_xd
+            - agile
+            - ai
+            - airflow
+            - ajax
+            - akka
+            - algorithms
+            - amazon_aws
+            - amazon_web_services
+            - analityczne_myślenie
+            - analiza_biznesowa
+            - analytical_thinking
             - analytics
-            - security
-            - data
-            - go
-            - support
-            - erp
+            - android
+            - android_sdk
+            - android_studio
+            - angular
+            - angular_2
+            - angular_2+
+            - angular_4
+            - angular_4+
+            - angular_5
+            - angular_5+
+            - angular_6
+            - angular_7
+            - angular_material
+            - angularjs
+            - ansible
+            - apache
+            - apache_cordova
+            - apache_hadoop
+            - apache_jmeter
+            - apache_kafka
+            - apache_spark
+            - apache_tomcat
+            - apex
+            - api
+            - api_testing
+            - appium
+            - ar
             - architecture
+            - arm
+            - artifactory
+            - as400
+            - asp.net
+            - asp.net_core
+            - asp.net_mvc
+            - asp.net_web_api
+            - async_programming
+            - asyncio
+            - atlassian
+            - auto_layout
+            - automated_testing
+            - automation_tools
+            - automotive
+            - autosar
+            - aws
+            - axure_rp
+            - azure
+            - azure_devops
+            - azure_services
+            - babel
+            - backbone.js
+            - backend
+            - bamboo
+            - bash
+            - bazy_danych
+            - bdd
+            - behat
+            - bem
+            - bi
+            - big_data
+            - bigquery
+            - bitbucket
+            - blockchain
+            - boost
+            - bootstrap
+            - bootstrap_3
+            - bootstrap_4
+            - bpm
+            - bpmn
+            - bpmn2
+            - business_analysis
+            - business_intelligence
+            - c
+            - c#
+            - c++
+            - c++_14
+            - c++11
+            - canvas
+            - cassandra
+            - ccna
+            - cd
+            - celery
+            - centos
+            - chai
+            - chef
+            - ci
+            - ci/cd
+            - cisco
+            - clean_code
+            - clojure
+            - cloud
+            - cloud_computing
+            - cmake
+            - cms
+            - cocoa
+            - cocoa_touch
+            - cocoapods
+            - code_review
+            - codeigniter
+            - communication
+            - communication_skills
+            - composer
+            - computer_vision
+            - confluence
+            - consul
+            - contact_with_a_client
+            - containers
+            - continuous_integration
+            - continuous_delivery
+            - core_data
+            - coredata
+            - cqrs
+            - crm
+            - css
+            - css_3
+            - css_preprocessors
+            - css3
+            - cucumber
+            - customer_support
+            - cybersecurity
+            - cypress
+            - dagger
+            - dagger_2
+            - dart
+            - data
+            - data_integration
+            - data_modeling
+            - data_science
+            - data_warehousing
+            - databases
+            - databricks
+            - dax
+            - db2
+            - ddd
+            - debian
+            - deep_learning
+            - defining_requirements
+            - delphi
+            - design_patterns
+            - design_thinking
+            - devexpress
+            - devops
+            - devops_tools
+            - dhcp
+            - distributed_systems
+            - django
+            - django_rest_framework
+            - dns
+            - docker
+            - doctrine
+            - doctrine_2
+            - domain-driven_design
+            - drupal
+            - dsp
+            - dwh
+            - e-commerce
+            - eclipse
+            - ecmascript
+            - ecmascript_6
+            - ef
+            - ejb
+            - elastic
+            - elasticsearch
+            - elixir
+            - elk
+            - elk_stack
+            - embedded
+            - embedded_c
+            - embedded_systems
+            - ember
+            - ember.js
+            - english
+            - enterprise
+            - enterprise_architect
+            - entity
+            - entity_framework
+            - erp
+            - es_2015+
+            - es6
+            - es6+
+            - es6+_syntax
+            - es7
+            - esb
+            - espresso
+            - ethereum
+            - etl
+            - etl_tools
+            - event_sourcing
+            - event_storming
+            - event_streaming
+            - event-driven_architecture
+            - eventstore
+            - excel
+            - express.js
+            - ext_js
+            - facebook_api
+            - fastlane
+            - figma
+            - firebase
+            - firewall
+            - flask
+            - flink
+            - flow
+            - flutter
+            - french
+            - front-end
+            - frp
+            - functional_programming
+            - functional_testing
+            - gatling
+            - gcp
+            - german
+            - gerrit
+            - gherkin
+            - git
+            - gitflow
+            - github
+            - gitlab
+            - go
+            - golang
+            - google_analytics
+            - google_cloud
+            - google_cloud_platform
+            - google_maps_api
+            - google_play
+            - gradle
+            - grafana
+            - grails
+            - graphql
+            - groovy
+            - grpc
+            - grunt
+            - gui
+            - gulp
+            - gulp.js
+            - gwt
+            - ha
+            - hadoop
+            - haml
+            - haproxy
+            - hardware
+            - haskell
+            - hbase
+            - helpdesk
+            - heroku
+            - hibernate
+            - hive
+            - hp_alm
+            - html
+            - html5
+            - html5_/_css3
+            - http
+            - http_protocol
+            - https
+            - hybris
+            - hyper-v
+            - iac
+            - ibm
+            - iis
+            - illustrator
+            - image_processing
+            - indesign
+            - influxdb
+            - informatica
+            - informatica_powercenter
+            - information_security
+            - integration
+            - intellij
+            - invision
+            - ionic
+            - ios
+            - ios_frameworks
+            - ios_sdk
+            - iot
+            - ip
+            - ip_networks
+            - istqb
+            - istqb_foundation
+            - it
+            - it_security
+            - it_support
+            - itil
+            - j2ee
+            - jasmine
+            - java
+            - java_11
+            - java_8
+            - java_8+
+            - java_ee
+            - java_se
+            - javascript
+            - javascript_(jquery
+            - javascript_framework
+            - jbehave
+            - jboss
+            - jdbc
+            - jee
+            - jenkins
+            - jest
+            - jetty
+            - jira
+            - jmeter
+            - jms
+            - jpa
+            - jquery
+            - js
+            - js_es6
+            - js_frameworks
+            - jsf
+            - json
+            - jsp
+            - junit
+            - jvm
+            - kafka
+            - kanban
+            - karma
+            - keras
+            - keycloak
+            - kibana
+            - knockout
+            - kotlin
+            - kubernetes
+            - kvm
+            - lan
+            - laravel
+            - laravel_mix
+            - leadership
+            - lean
+            - less
+            - lightning
+            - linq
+            - linux
+            - linux_(debian
+            - linux_/_unix
+            - linux_kernel
+            - linux_networking
+            - linux_os
+            - loadrunner
+            - mac_os
+            - machine_learning
+            - magento
+            - magento_2
+            - management
+            - manual_testing
+            - mariadb
+            - material_design
+            - matlab
+            - maven
+            - memcached
+            - mercurial
+            - mesos
+            - microservice_architecture
+            - microservices
+            - microsoft
+            - microsoft_365
+            - microsoft_azure
+            - microsoft_azure_cloud
+            - microsoft_office
+            - microsoft_sql
+            - microsoft_visual_studio
+            - microsoft_windows
+            - mobile
+            - mobile_app_testing
+            - mobile_apps
+            - mobile_development
+            - mobx
+            - mocha
+            - mockito
+            - mongodb
+            - monitoring_systems
+            - monitoring_tools
+            - mq
+            - ms_azure
+            - ms_excel
+            - ms_exchange
+            - ms_office
+            - ms_project
+            - ms_sql
+            - ms_sql_server
+            - mssql
+            - mule
+            - mulesoft
+            - multi_browser_testing
+            - mvc
+            - mvc_frameworks
+            - mvc_pattern
+            - mvp
+            - mvvm
+            - mysql
+            - nagios
+            - nest.js
+            - nestjs
+            - network
+            - network_administration
+            - network_protocols
+            - networking
+            - networks
+            - next.js
+            - nginx
+            - ngnix
+            - ngrx
+            - nhibernate
+            - niemiecki
+            - nlp
+            - node
+            - node.js
+            - node.js_express
+            - nodejs
+            - nosql
+            - npm
+            - numpy
+            - nunit
+            - objective-c
+            - octopus
+            - office_365
+            - offline_storage
+            - olap
+            - ood
+            - oop
+            - open_source
+            - opencv
+            - opengl
+            - openshift
+            - openstack
+            - oracle
+            - oracle_db
+            - oracle_sql
+            - oracle_weblogic
+            - orm
+            - os_x_linux
+            - owasp
+            - pandas
+            - pentaho
+            - people_management
+            - perl
+            - photoshop
+            - php
+            - php_5
+            - php_5.4
+            - php_7
+            - php_7.x
+            - php_8
+            - phpunit
+            - pl/sql
+            - playwright
+            - pm
+            - polish
+            - postgresql
+            - postman
+            - postresql
+            - power_bi
+            - powershell
+            - prestashop
+            - prince2
+            - proactivity
+            - problem_solving
+            - product_management
+            - programming
+            - project_management
+            - prometheus
+            - prototyping
+            - protractor
+            - puppet
+            - push_notifications
+            - pwa
+            - pyqt
+            - pyspark
+            - pytest
+            - python
+            - python_3
+            - python_3.x
+            - pytorch
+            - qa
+            - qt
+            - quality_assurance
+            - r
+            - rabbitmq
+            - rails
+            - razor
+            - rdbms
+            - react
+            - react_native
+            - reactive_programming
+            - reactjs
+            - realm
+            - reason
+            - red_hat
+            - redis
+            - redmine
+            - redux
+            - relacyjne_bazy_danych
+            - relational_databases
+            - responsive_web_design
+            - rest
+            - rest_api
+            - rest_services
+            - restful
+            - restful_api
+            - retrofit
+            - risk_management
+            - robot_framework
+            - routing
+            - rpa
+            - rpg
+            - rspec
+            - rtos
+            - ruby
+            - ruby_on_rails
+            - rust
+            - rwd
+            - rxjava
+            - rxjava_2
+            - rxjs
+            - rxkotlin
+            - rxswift
+            - saas
+            - sales
+            - salesforce
+            - sap
+            - sap_bo
+            - sap_hana
+            - sap_mm
+            - sap_sd
+            - sas
+            - sass
+            - sass_(bem
+            - scala
+            - scrapy
+            - scripting
+            - scrum
+            - scrum_master
+            - scss
+            - sdlc
+            - security
+            - selenium
+            - selenium_webdriver
+            - seo
+            - serverless
+            - servicenow
+            - sharepoint
+            - shell
+            - shell_scripting
+            - shopify
+            - siem
+            - sip
+            - sketch
+            - slack
+            - snowflake
+            - soa
+            - soap
+            - soapui
+            - social_media
+            - socket.io
+            - software_architecture
+            - software_development
+            - solid
+            - solid_principles
+            - solidity
+            - solr
+            - sonar
+            - sonarqube
+            - spa
+            - spark
+            - splunk
+            - spock
+            - spring
+            - spring_5
+            - spring_boot
+            - spring_cloud
+            - spring_mvc
+            - sql
+            - sql_server
+            - sqlalchemy
+            - sqlite
+            - ssas
+            - ssis
+            - ssrs
+            - statistics
+            - stl
+            - svg
+            - svn
+            - swagger
+            - swift
+            - swiftui
+            - swing
+            - symfony
+            - symfony_2
+            - symfony_3
+            - symfony_4
+            - symphony
+            - t-sql
+            - tableau
+            - tabular
+            - tcp
+            - tcp/ip
+            - tdd
+            - team_leadership
+            - team_management
+            - team_player
+            - teamcity
+            - teamwork
+            - telco
+            - tensorflow
+            - teradata
+            - terraform
+            - test_automation
+            - test_cases
+            - test_planning
+            - test_scenarios
+            - testing
+            - testing_mobile_apps
+            - testing_tools
+            - testlink
+            - testrail
+            - testy_funkcjonalne
+            - tfs
+            - togaf
+            - tomcat
+            - tornado
+            - troubleshooting
+            - twig
+            - typescript
+            - ubuntu
+            - ui
+            - ui_design
+            - uikit
+            - uipath
+            - uml
+            - unit_testing
+            - unity
+            - unity_3d
+            - unix
+            - unreal_engine
+            - unreal_engine_4
+            - usability_testing
+            - user_interface
+            - user_stories
+            - ux
+            - ux_design
+            - ux_research
+            - ux/ui
+            - uxpin
+            - vaadin
+            - vagrant
+            - varnish
+            - vb.net
+            - vba
+            - virtualization
+            - visual_basic
+            - visual_studio
+            - vmware
+            - voip
+            - vpn
+            - vue
+            - vue.js
+            - wcf
+            - web_api
+            - web_application_testing
+            - web_applications
+            - web_development
+            - web_services
+            - webcon
+            - webcon_bps
+            - webdriver
+            - webgl
+            - weblogic
+            - webmethods
+            - webpack
+            - webservice
+            - websocket
+            - websphere
+            - wildfly
+            - windows
+            - windows_10
+            - windows_administration
+            - windows_forms
+            - windows_server
+            - winforms
+            - woocommerce
+            - wordpress
+            - wpf
+            - writing_test_cases
+            - writing_test_scenarios
+            - xamarin
+            - xcode
+            - xml
+            - xpath
+            - xsd
+            - xslt
+            - yarn
+            - yii
+            - zabbix
+            - zend
+            - zend_expressive
+            - zend_framework
+            - zeplin
+            - zmq
         level:
           type: integer
           minimum: 1
@@ -177,20 +935,30 @@ components:
       properties:
         title:
           type: string
+          minLength: 1
+          maxLength: 100
         companyName:
           type: string
+          minLength: 1
+          maxLength: 100
         city:
           type: string
+          minLength: 1
+          maxLength: 50
         street:
           type: string
+          minLength: 1
+          maxLength: 50
         description:
           type: string
+          minLength: 1
+          maxLength: 4400
         remoteInterview:
           type: boolean
         experienceLevel:
           $ref: '#/components/schemas/ExperienceLevel'
         mainTechnology:
-          type: string
+          $ref: '#/components/schemas/MainTechnology'
         typeOfWork:
           $ref: '#/components/schemas/TypeOfWork'
         employments:
@@ -207,8 +975,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RequiredSkill'
-          maxItems: 10
           minItems: 1
+          maxItems: 10
       required:
         - title
         - companyName
@@ -234,13 +1002,13 @@ components:
         mainTechnology: java
         typeOfWork: full_time
         employments:
-          - type: b2b
-            from: 130000
+          - type: permanent
+            from: 10000
             to: 15000
             currency: pln
-          - type: permanent
-            from: 100000
-            to: 13000
+          - type: b2b
+            from: 12000
+            to: 17000
             currency: pln
         operatingModes:
           - remote
@@ -249,31 +1017,70 @@ components:
         requiredSkills:
           - name: java
             level: 5
-        applyUrl: http://example.com
-        contactName: John Doe
-        contactEmail: contac@email.com
-        contactPhone: "48123321123"
+          - name: spring_boot
+            level: 4
+          - name: apache_kafka
+            level: 5
+        applyUrl: https://www.example.com
+        contact:
+          name: John
+          surname: Doe
+          email: contac@email.com
+          phone: "+48123456789"
     MinimalJobOffer:
       value:
-        title: "Senior Java developer needed asap"
+        title: "Junior Python developer needed asap"
         companyName: "Some company name"
         city: "Some city"
         street: "Some street"
         description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-        experienceLevel: senior
-        mainTechnology: java
-        typeOfWork: part_time
+        experienceLevel: junior
+        mainTechnology: python
+        typeOfWork: full_time
         employments:
           - type: permanent
             currency: pln
         operatingModes:
           - office
         requiredSkills:
+          - name: python
+            level: 5
+        contact:
+          name: John
+          surname: Doe
+          email: contac@email.com
+          phone: "+48123456789"
+    FetchedJobOffer:
+      value:
+        title: "Senior Java developer needed asap"
+        companyName: "Some company name"
+        city: "Some city"
+        street: "Some street"
+        description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        remoteInterview: true
+        experienceLevel: senior
+        mainTechnology: java
+        typeOfWork: full_time
+        employments:
+          - type: permanent
+            from: 10000
+            to: 15000
+            currency: pln
+          - type: b2b
+            from: 12000
+            to: 17000
+            currency: pln
+        operatingModes:
+          - remote
+          - hybrid
+          - office
+        requiredSkills:
           - name: java
             level: 5
-        contactName: John Doe
-        contactEmail: contac@email.com
-        contactPhone: "48123321123"
+          - name: spring_boot
+            level: 4
+          - name: apache_kafka
+            level: 5
   parameters:
     query-param-type-of-work:
       name: type-of-work
@@ -377,10 +1184,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/FetchedJobOffer'
               examples:
-                MaxJobOffer:
-                  $ref: '#/components/examples/MaximalJobOffer'
-                MinimalJobOffer:
-                  $ref: '#/components/examples/MinimalJobOffer'
+                FetchedJobOffer:
+                  $ref: '#/components/examples/FetchedJobOffer'
   /job-offer:
     post:
       operationId: createJobOffer
@@ -411,7 +1216,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/JobOfferMetadata'
               example:
-                id: "1020x20"
+                id: "1124141"
         '400':
           description: There was a problem with a request
           content:
