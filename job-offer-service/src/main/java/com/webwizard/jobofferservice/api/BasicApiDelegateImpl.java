@@ -27,7 +27,11 @@ public class BasicApiDelegateImpl implements BasicApiDelegate {
     }
 
     @Override
-    public ResponseEntity<List<FetchedJobOfferDto>> findJobOffers(Integer salaryMin, Integer salaryMax, String skill, String employmentType, String experience, String operatingMode, String typeOfWork) {
+    public ResponseEntity<List<FetchedJobOfferDto>> findJobOffers(Integer salaryMin, Integer salaryMax,
+                                                                  String skill, String employmentType,
+                                                                  String experience, String operatingMode,
+                                                                  String typeOfWork
+    ) {
         List<FetchedJobOfferDto> jobOffers = jobOfferService.findOfferByFilters(salaryMin, salaryMax, skill, employmentType, experience, operatingMode, typeOfWork);
         return ResponseEntity
                 .ok()

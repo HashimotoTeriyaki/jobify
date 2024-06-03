@@ -17,15 +17,15 @@ components:
         companyName:
           type: string
           minLength: 1
-          maxLength: 20
+          maxLength: 100
         city:
           type: string
           minLength: 1
-          maxLength: 20
+          maxLength: 50
         street:
           type: string
           minLength: 1
-          maxLength: 20
+          maxLength: 50
         description:
           type: string
           minLength: 1
@@ -914,15 +914,27 @@ components:
       properties:
         message:
           type: string
-        code:
+        field:
           type: string
-          enum:
-            - MISSING_CONTENT
-            - OFFER_NOT_FOUND
-            - MISSING_COMPANY_NAME
       required:
         - message
-        - code
+        - field
+    ErrorsResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: time
+        statusCode:
+          type: integer
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+        - timestamp
+        - statusCode
+        - errors
     JobOfferMetadata:
       type: object
       properties:
@@ -1222,7 +1234,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErrorsResponse'
   /job-offer/{id}:
     delete:
       operationId: deleteJobOffer
