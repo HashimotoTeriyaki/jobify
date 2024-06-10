@@ -939,7 +939,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
       required:
         - id
     FetchedJobOffer:
@@ -1119,9 +1119,9 @@ components:
           - internship
           - mandate
           - specific_task
-    query-param-job-offer-main-skill:
-      name: skill
-      description: Main skill filter
+    query-param-job-offer-main-technology:
+      name: technology
+      description: Main technology filter
       in: query
       required: false
       schema:
@@ -1163,6 +1163,25 @@ components:
       required: false
       schema:
         type: integer
+    query-param-page-number:
+      name: page
+      description: Page number
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    query-param-page-size:
+      name: page-size
+      description: Page size
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
     path-param-job-offer-id:
       name: id
       description: Job offer id
@@ -1178,11 +1197,13 @@ paths:
       parameters:
         - $ref: '#/components/parameters/query-param-salary-min'
         - $ref: '#/components/parameters/query-param-salary-max'
-        - $ref: '#/components/parameters/query-param-job-offer-main-skill'
+        - $ref: '#/components/parameters/query-param-job-offer-main-technology'
         - $ref: '#/components/parameters/query-param-job-offer-employment-type'
         - $ref: '#/components/parameters/query-param-job-offer-experience'
         - $ref: '#/components/parameters/query-param-operating-mode'
         - $ref: '#/components/parameters/query-param-type-of-work'
+        - $ref: '#/components/parameters/query-param-page-number'
+        - $ref: '#/components/parameters/query-param-page-size'
       summary: Searches for job offers by parameter and returns an Array
       tags:
         - Basic

@@ -68,7 +68,7 @@ public class JobOffer {
     @JoinColumn(name = "job_offer_id")
     @NotEmpty
     @Valid
-    private List<OfferOperatingMode> offerOperatingModes = new ArrayList<>();
+    private List<OfferOperatingMode> offerOperatingModes;
 
     @URL(message = "Invalid URL format")
     private String applyUrl;
@@ -84,11 +84,11 @@ public class JobOffer {
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "job_offer_id")
     @NotEmpty
-    private List<RequiredSkill> requiredSkills = new ArrayList<>();
+    private List<RequiredSkill> requiredSkills;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "job_offer_id")
     @NotEmpty
     @Valid
-    private List<Employment> employments = new ArrayList<>();
+    private List<Employment> employments;
 }

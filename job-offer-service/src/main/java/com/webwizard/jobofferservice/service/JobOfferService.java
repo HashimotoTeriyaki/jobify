@@ -33,7 +33,7 @@ public class JobOfferService {
     private final OperatingModeMapper operatingModeMapper;
     private final ContactMapper contactMapper;
 
-    private final JobOfferSearchDao jobOfferSearchDao;
+    private final JobOfferCriteriaRepository jobOfferCriteriaRepository;
 
     @Transactional
     public JobOfferMetadataDto createJobOffer(JobOfferDto jobOfferDto) {
@@ -41,22 +41,28 @@ public class JobOfferService {
         JobOffer jobOffer = mapJobOfferToEntity(jobOfferDto);
         JobOffer savedJobOffer = jobOfferRepository.save(jobOffer);
         log.info("New job offer created! id: {}", savedJobOffer.getId());
-        return new JobOfferMetadataDto(String.valueOf(savedJobOffer.getId()));
+        return new JobOfferMetadataDto(savedJobOffer.getId());
     }
 
     public List<FetchedJobOfferDto> findOfferByFilters(
-            Integer salaryMin,
-            Integer salaryMax,
-            String skill,
-            String employmentType,
-            String experience,
-            String operatingMode,
-             String typeOfWork
+            Integer salaryMin, Integer salaryMax,
+            String technology, String employmentType,
+            String experience, String operatingMode,
+            String typeOfWork, Integer page,
+            Integer pageSize
     ) {
         log.info("Searching for job offers with filters...");
-        List<JobOffer> jobOffers = jobOfferSearchDao.findAllByFilters(salaryMin, salaryMax, skill, employmentType, experience, operatingMode, typeOfWork);
+        List<JobOffer> jobOffers = jobOfferCriteriaRepository.findAllByFilters(
+                salaryMin, salaryMax,
+                technology, employmentType,
+                experience, operatingMode,
+                typeOfWork, page,
+                pageSize
+        );
         log.info("{} Job offer(s) found", jobOffers.size());
-        return jobOfferMapper.toDto(jobOffers);
+        return jobOffers.stream()
+                .map(jobOfferMapper::toDto)
+                .toList();
     }
 
     private JobOffer mapJobOfferToEntity(JobOfferDto jobOfferDto) {

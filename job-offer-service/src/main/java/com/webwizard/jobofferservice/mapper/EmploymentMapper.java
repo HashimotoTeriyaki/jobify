@@ -30,7 +30,7 @@ public interface EmploymentMapper {
     }
 
     @Named("employmentType")
-    default EmploymentDto.TypeEnum mapCurrency(EmploymentType employmentType) {
+    default EmploymentDto.TypeEnum mapEmploymentType(EmploymentType employmentType) {
         return EmploymentDto.TypeEnum.fromValue(employmentType.getName().toLowerCase());
     }
 }
