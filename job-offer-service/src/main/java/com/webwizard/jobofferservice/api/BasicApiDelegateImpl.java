@@ -27,14 +27,14 @@ public class BasicApiDelegateImpl implements BasicApiDelegate {
     }
 
     @Override
-    public ResponseEntity<List<FetchedJobOfferDto>> findJobOffers(
+    public ResponseEntity<List<SimpleJobOfferDto>> findJobOffers(
             Integer salaryMin, Integer salaryMax,
             String technology, String employmentType,
             String experience, String operatingMode,
             String typeOfWork, Integer page,
             Integer pageSize
     ) {
-        List<FetchedJobOfferDto> jobOffers = jobOfferService.findOfferByFilters(
+        List<SimpleJobOfferDto> jobOffers = jobOfferService.findOfferByFilters(
                 salaryMin, salaryMax,
                 technology, employmentType,
                 experience, operatingMode,
@@ -44,5 +44,13 @@ public class BasicApiDelegateImpl implements BasicApiDelegate {
         return ResponseEntity
                 .ok()
                 .body(jobOffers);
+    }
+
+    @Override
+    public ResponseEntity<FetchedJobOfferDto> findJobOffer(Integer id) {
+        FetchedJobOfferDto fetchedJobOfferDto = jobOfferService.findJobOfferById(id);
+        return ResponseEntity
+                .ok()
+                .body(fetchedJobOfferDto);
     }
 }

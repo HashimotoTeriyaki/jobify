@@ -39,7 +39,9 @@ public interface JobOfferMapper {
     @Mapping(source = "offerOperatingModes", target = "operatingModes")
     FetchedJobOfferDto toDto(JobOffer jobOffer);
 
-    List<FetchedJobOfferDto> toDto(List<JobOffer> requiredSkills);
+    @Mapping(source = "mainTechnology", target = "mainTechnology", qualifiedByName = "mainTechnology")
+    @Mapping(source = "offerOperatingModes", target = "operatingModes")
+    SimpleJobOfferDto toSimpleDto(JobOffer jobOffer);
 
     @Named("mainTechnology")
     default String mapMainTechnology(MainTechnology mainTechnology) {

@@ -1,5 +1,6 @@
 package com.webwizard.jobofferservice.service;
 
+import com.webwizard.jobofferservice.exception.OfferNotFoundException;
 import com.webwizard.jobofferservice.mapper.*;
 import com.webwizard.jobofferservice.model.*;
 import com.webwizard.jobofferservice.openapi.v1.model.*;
@@ -44,7 +45,7 @@ public class JobOfferService {
         return new JobOfferMetadataDto(savedJobOffer.getId());
     }
 
-    public List<FetchedJobOfferDto> findOfferByFilters(
+    public List<SimpleJobOfferDto> findOfferByFilters(
             Integer salaryMin, Integer salaryMax,
             String technology, String employmentType,
             String experience, String operatingMode,
@@ -59,10 +60,19 @@ public class JobOfferService {
                 typeOfWork, page,
                 pageSize
         );
-        log.info("{} Job offer(s) found", jobOffers.size());
+        log.info("{} Job offer(s) found!", jobOffers.size());
         return jobOffers.stream()
-                .map(jobOfferMapper::toDto)
+                .map(jobOfferMapper::toSimpleDto)
                 .toList();
+    }
+
+    public FetchedJobOfferDto findJobOfferById(Integer id) {
+        log.info("Searching for job offer with id: {}", id);
+        JobOffer jobOffer = jobOfferRepository
+                .findById(id)
+                .orElseThrow(() -> new OfferNotFoundException("Offer with id: " + id + " not found..."));
+        log.info("Job offer found! id: {}", id);
+        return jobOfferMapper.toDto(jobOffer);
     }
 
     private JobOffer mapJobOfferToEntity(JobOfferDto jobOfferDto) {

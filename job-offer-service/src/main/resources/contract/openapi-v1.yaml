@@ -64,13 +64,13 @@ components:
         - companyName
         - city
         - street
-        - typeOfWork
         - description
-        - operatingModes
-        - employments
-        - requiredSkills
         - experienceLevel
         - mainTechnology
+        - typeOfWork
+        - employments
+        - operatingModes
+        - requiredSkills
         - contact
 
     Employment:
@@ -147,6 +147,7 @@ components:
         - support
         - erp
         - architecture
+
     RequiredSkill:
       type: object
       properties:
@@ -914,11 +915,11 @@ components:
       properties:
         message:
           type: string
-        field:
+        exception:
           type: string
       required:
         - message
-        - field
+        - exception
     ErrorsResponse:
       type: object
       properties:
@@ -994,13 +995,54 @@ components:
         - companyName
         - city
         - street
-        - typeOfWork
         - description
-        - operatingModes
-        - employments
-        - requiredSkills
         - experienceLevel
         - mainTechnology
+        - typeOfWork
+        - employments
+        - operatingModes
+        - requiredSkills
+
+    SimpleJobOffer:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        companyName:
+          type: string
+          minLength: 1
+          maxLength: 100
+        city:
+          type: string
+          minLength: 1
+          maxLength: 50
+        mainTechnology:
+          $ref: '#/components/schemas/MainTechnology'
+        operatingModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperatingMode'
+          minItems: 1
+          maxItems: 3
+        requiredSkills:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          maxItems: 10
+      required:
+        - id
+        - title
+        - companyName
+        - city
+        - mainTechnology
+        - operatingModes
+        - requiredSkills
+
   examples:
     MaximalJobOffer:
       value:
@@ -1093,6 +1135,20 @@ components:
             level: 4
           - name: apache_kafka
             level: 5
+    SimpleJobOffer:
+      value:
+        id: 1
+        title: "Senior Java developer needed asap"
+        companyName: "Some company name"
+        city: "Some city"
+        mainTechnology: java
+        operatingModes:
+          - office
+        requiredSkills:
+          - apache kafka
+          - java
+          - spring boot
+
   parameters:
     query-param-type-of-work:
       name: type-of-work
@@ -1215,10 +1271,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FetchedJobOffer'
+                  $ref: '#/components/schemas/SimpleJobOffer'
               examples:
                 FetchedJobOffer:
-                  $ref: '#/components/examples/FetchedJobOffer'
+                  $ref: '#/components/examples/SimpleJobOffer'
   /job-offer:
     post:
       operationId: createJobOffer
@@ -1313,7 +1369,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/JobOffer'
+                $ref: '#/components/schemas/FetchedJobOffer'
         '404':
           description: Job offer does not exist
           content:

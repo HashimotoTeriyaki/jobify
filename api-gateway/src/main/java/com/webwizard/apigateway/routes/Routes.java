@@ -18,7 +18,9 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> jobOfferService() {
         return GatewayRouterFunctions.route("job_offer_service")
-                .route(path("job-offer"),
+                .route(path("/job-offer"),
+                        http(HOST + port))
+                .route(path("/job-offer/{id}"),
                         http(HOST + port))
                 .route(path("/job-offers"),
                         http(HOST + port))

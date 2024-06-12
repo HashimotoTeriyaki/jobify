@@ -22,4 +22,12 @@ public interface RequiredSkillMapper {
     default RequiredSkillDto.NameEnum mapSkill(Skill skill) {
         return RequiredSkillDto.NameEnum.fromValue(skill.getName().toLowerCase());
     }
+
+    List<String> requiredSkillsToDto(List<RequiredSkill> requiredSkills);
+
+    default String mapRequiredSkill(RequiredSkill requiredSkill) {
+        return requiredSkill.getSkill()
+                .getName()
+                .toLowerCase();
+    }
 }
