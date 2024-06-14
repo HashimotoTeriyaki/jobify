@@ -913,28 +913,48 @@ components:
     Error:
       type: object
       properties:
+        timestamp:
+          type: string
+          format: time
+        status:
+          type: integer
         message:
           type: string
-        exception:
+        path:
           type: string
       required:
+        - timestamp
+        - status
         - message
-        - exception
-    ErrorsResponse:
+        - path
+    ValidationError:
+      type: object
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+      required:
+        - field
+        - message
+    ValidationErrorResponse:
       type: object
       properties:
         timestamp:
           type: string
           format: time
-        statusCode:
+        status:
           type: integer
+        path:
+          type: string
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ValidationError'
       required:
         - timestamp
-        - statusCode
+        - status
+        - path
         - errors
     JobOfferMetadata:
       type: object
@@ -1311,7 +1331,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/ErrorsResponse'
+                $ref: '#/components/schemas/ValidationErrorResponse'
   /job-offer/{id}:
     delete:
       operationId: deleteJobOffer

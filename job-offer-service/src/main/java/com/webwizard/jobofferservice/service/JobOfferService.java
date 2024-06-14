@@ -1,6 +1,6 @@
 package com.webwizard.jobofferservice.service;
 
-import com.webwizard.jobofferservice.exception.OfferNotFoundException;
+import com.webwizard.jobofferservice.exception.JobOfferNotFoundException;
 import com.webwizard.jobofferservice.mapper.*;
 import com.webwizard.jobofferservice.model.*;
 import com.webwizard.jobofferservice.openapi.v1.model.*;
@@ -70,7 +70,7 @@ public class JobOfferService {
         log.info("Searching for job offer with id: {}", id);
         JobOffer jobOffer = jobOfferRepository
                 .findById(id)
-                .orElseThrow(() -> new OfferNotFoundException("Offer with id: " + id + " not found..."));
+                .orElseThrow(() -> new JobOfferNotFoundException(404, "Job offer with id: " + id + " not found"));
         log.info("Job offer found! id: {}", id);
         return jobOfferMapper.toDto(jobOffer);
     }
