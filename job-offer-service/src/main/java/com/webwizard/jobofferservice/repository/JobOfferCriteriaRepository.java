@@ -20,7 +20,8 @@ public class JobOfferCriteriaRepository {
             Integer salaryMin, Integer salaryMax,
             String technology, String employmentType,
             String experience, String operatingMode,
-            String typeOfWork, Integer page,
+            String typeOfWork, String orderBy,
+            String sortBy, Integer page,
             Integer pageSize
     ) {
         JobOfferCriteriaBuilder criteriaBuilder = new JobOfferCriteriaBuilder(entityManager);
@@ -33,6 +34,7 @@ public class JobOfferCriteriaRepository {
                 .addExperience(experience)
                 .addOperatingMode(operatingMode)
                 .addTypeOfWork(typeOfWork)
+                .setSortOrder(orderBy, sortBy)
                 .build();
 
         Query typedQuery = entityManager.createQuery(query);

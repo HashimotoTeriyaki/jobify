@@ -10,7 +10,10 @@ import org.springframework.data.annotation.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
@@ -47,24 +50,24 @@ public class JobOffer {
 
     private boolean remoteInterview;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "contact_id")
     @Valid
     private Contact contact;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "main_technology_id")
     private MainTechnology mainTechnology;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "type_of_work_id")
     private TypeOfWork typeOfWork;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "experience_level_id")
     private ExperienceLevel experienceLevel;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = PERSIST, fetch = LAZY)
     @JoinColumn(name = "job_offer_id")
     @NotEmpty
     @Valid
@@ -81,12 +84,12 @@ public class JobOffer {
     @Column(nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = PERSIST, fetch = LAZY)
     @JoinColumn(name = "job_offer_id")
     @NotEmpty
     private List<RequiredSkill> requiredSkills;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = PERSIST, fetch = LAZY)
     @JoinColumn(name = "job_offer_id")
     @NotEmpty
     @Valid

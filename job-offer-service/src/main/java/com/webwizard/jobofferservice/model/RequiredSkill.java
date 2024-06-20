@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Getter
 @Setter
 @Builder
@@ -16,7 +18,7 @@ public class RequiredSkill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "skill_id")
     private Skill skill;
 

@@ -31,14 +31,16 @@ public class BasicApiDelegateImpl implements BasicApiDelegate {
             Integer salaryMin, Integer salaryMax,
             String technology, String employmentType,
             String experience, String operatingMode,
-            String typeOfWork, Integer page,
+            String typeOfWork, String orderBy,
+            String sortBy, Integer page,
             Integer pageSize
     ) {
         List<SimpleJobOfferDto> jobOffers = jobOfferService.findOfferByFilters(
                 salaryMin, salaryMax,
                 technology, employmentType,
                 experience, operatingMode,
-                typeOfWork, page,
+                typeOfWork, orderBy,
+                sortBy, page,
                 pageSize
         );
         return ResponseEntity

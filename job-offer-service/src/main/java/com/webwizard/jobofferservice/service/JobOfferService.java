@@ -49,7 +49,8 @@ public class JobOfferService {
             Integer salaryMin, Integer salaryMax,
             String technology, String employmentType,
             String experience, String operatingMode,
-            String typeOfWork, Integer page,
+            String typeOfWork, String orderBy,
+            String sortBy, Integer page,
             Integer pageSize
     ) {
         log.info("Searching for job offers with filters...");
@@ -57,7 +58,8 @@ public class JobOfferService {
                 salaryMin, salaryMax,
                 technology, employmentType,
                 experience, operatingMode,
-                typeOfWork, page,
+                typeOfWork, orderBy,
+                sortBy, page,
                 pageSize
         );
         log.info("{} Job offer(s) found!", jobOffers.size());
@@ -96,7 +98,7 @@ public class JobOfferService {
         );
     }
 
-    protected Contact isNewContact(ContactDto contactDto) {
+    private Contact isNewContact(ContactDto contactDto) {
         Optional<Contact> contact = contactRepository.findAllByPhoneAndEmail(contactDto.getPhone(), contactDto.getEmail());
         return contact.orElseGet(() -> contactRepository.save(contactMapper.toEntity(contactDto)));
     }

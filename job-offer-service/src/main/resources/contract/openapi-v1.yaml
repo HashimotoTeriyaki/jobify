@@ -1054,6 +1054,12 @@ components:
             type: string
           minItems: 1
           maxItems: 10
+        employments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employment'
+          minItems: 1
+          maximum: 5
       required:
         - id
         - title
@@ -1062,6 +1068,7 @@ components:
         - mainTechnology
         - operatingModes
         - requiredSkills
+        - employments
 
   examples:
     MaximalJobOffer:
@@ -1171,7 +1178,7 @@ components:
 
   parameters:
     query-param-type-of-work:
-      name: type-of-work
+      name: typeOfWork
       description: Work type filter
       in: query
       required: false
@@ -1183,7 +1190,7 @@ components:
           - internship
           - freelance
     query-param-job-offer-employment-type:
-      name: employment-type
+      name: employmentType
       description: Employment type filter
       in: query
       required: false
@@ -1215,7 +1222,7 @@ components:
           - senior
           - lead
     query-param-operating-mode:
-      name: operating-mode
+      name: operatingMode
       description: Operating mode filter
       in: query
       required: false
@@ -1226,19 +1233,41 @@ components:
           - hybrid
           - office
     query-param-salary-min:
-      name: salary-min
+      name: salaryMin
       description: Minimal salary filter
       in: query
       required: false
       schema:
         type: integer
     query-param-salary-max:
-      name: salary-max
+      name: salaryMax
       description: Maximal salary filter
       in: query
       required: false
       schema:
         type: integer
+    query-param-order-by:
+      name: orderBy
+      description: offer order
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - salary
+          - createdDate
+        default: createdDate
+    query-param-sort-by:
+      name: sortBy
+      description: sort param
+      in: query
+      required: false
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
+        default: DESC
     query-param-page-number:
       name: page
       description: Page number
@@ -1249,7 +1278,7 @@ components:
         minimum: 1
         default: 1
     query-param-page-size:
-      name: page-size
+      name: pageSize
       description: Page size
       in: query
       required: false
@@ -1278,6 +1307,8 @@ paths:
         - $ref: '#/components/parameters/query-param-job-offer-experience'
         - $ref: '#/components/parameters/query-param-operating-mode'
         - $ref: '#/components/parameters/query-param-type-of-work'
+        - $ref: '#/components/parameters/query-param-order-by'
+        - $ref: '#/components/parameters/query-param-sort-by'
         - $ref: '#/components/parameters/query-param-page-number'
         - $ref: '#/components/parameters/query-param-page-size'
       summary: Searches for job offers by parameter and returns an Array
