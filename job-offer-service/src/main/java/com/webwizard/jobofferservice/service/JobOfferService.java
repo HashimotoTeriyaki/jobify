@@ -15,7 +15,6 @@ import java.util.*;
 @Service
 @Slf4j
 @AllArgsConstructor
-//TODO implement tests
 public class JobOfferService {
 
     private final SkillRepository skillRepository;
@@ -108,7 +107,7 @@ public class JobOfferService {
                 employmentDto -> employmentMapper.toEntity(employmentDto,
                         currencyRepository.findFirstByName(employmentDto.getCurrency().getValue().toUpperCase()),
                         employmentTypeRepository.findFirstByName(employmentDto.getType()
-                                .toString().toUpperCase()
+                                .getValue().toUpperCase()
                         )
                 )
         ).toList();
