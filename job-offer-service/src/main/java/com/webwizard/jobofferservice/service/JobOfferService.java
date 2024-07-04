@@ -26,12 +26,14 @@ public class JobOfferService {
     private final OperatingModeRepository operatingModeRepository;
     private final TypeOfWorkRepository typeOfWorkRepository;
     private final ContactRepository contactRepository;
+    private final MessageRepository messageRepository;
 
     private final JobOfferMapper jobOfferMapper;
     private final EmploymentMapper employmentMapper;
     private final RequiredSkillMapper requiredSkillMapper;
     private final OperatingModeMapper operatingModeMapper;
     private final ContactMapper contactMapper;
+    private final MessageMapper messageMapper;
 
     private final JobOfferCriteriaRepository jobOfferCriteriaRepository;
 
@@ -41,6 +43,7 @@ public class JobOfferService {
         JobOffer jobOffer = mapJobOfferToEntity(jobOfferDto);
         JobOffer savedJobOffer = jobOfferRepository.save(jobOffer);
         log.info("New job offer created! id: {}", savedJobOffer.getId());
+        messageRepository.save(messageMapper.toEntity(jobOffer));
         return new JobOfferMetadataDto(savedJobOffer.getId());
     }
 
@@ -98,7 +101,7 @@ public class JobOfferService {
     }
 
     private Contact isNewContact(ContactDto contactDto) {
-        Optional<Contact> contact = contactRepository.findAllByPhoneAndEmail(contactDto.getPhone(), contactDto.getEmail());
+        Optional<Contact> contact = contactRepository.findAllByPhoneAndEmailAndName(contactDto.getPhone(), contactDto.getEmail(), contactDto.getName());
         return contact.orElseGet(() -> contactRepository.save(contactMapper.toEntity(contactDto)));
     }
 

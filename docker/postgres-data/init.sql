@@ -893,3 +893,14 @@ create table if not exists required_skill
     constraint fk_job_offer foreign key (job_offer_id) references job_offer (id),
     constraint fk_skill foreign key (skill_id) references skill (id)
 );
+
+create table if not exists message_queue
+(
+    id           serial primary key                                          not null,
+    title        varchar(100) check (length(title) between 1 and 100)        not null,
+    location     varchar(100) check (length(location) between 1 and 200)     not null,
+    recipient    varchar(100) check (length(recipient) between 1 and 100)    not null,
+    created_date timestamp(6)                                                not null,
+    contact_name varchar(100) check (length(contact_name) between 1 and 100) not null,
+    send         boolean                                                     not null
+);

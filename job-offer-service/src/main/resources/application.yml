@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/job_offer_service
+    url: jdbc:postgresql://localhost:5432/jobify-db
     username: root
     password: postgres
   jpa:

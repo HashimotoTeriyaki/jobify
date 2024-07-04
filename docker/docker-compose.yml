@@ -1,11 +1,11 @@
 services:
   postgresql:
-    container_name: job-offer-service-postgres
+    container_name: jobify-db
     image: postgres:16
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: job_offer_service
+      POSTGRES_DB: jobify-db
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./postgres-data/init.sql:/docker-entrypoint-initdb.d/init.sql

@@ -4,6 +4,7 @@ import com.webwizard.jobofferservice.exception.JobOfferNotFoundException;
 import com.webwizard.jobofferservice.mapper.*;
 import com.webwizard.jobofferservice.model.Currency;
 import com.webwizard.jobofferservice.model.*;
+import com.webwizard.jobofferservice.model.message.Message;
 import com.webwizard.jobofferservice.openapi.v1.model.*;
 import com.webwizard.jobofferservice.repository.*;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,8 @@ class JobOfferServiceTest {
     @Mock
     private ContactRepository contactRepository;
     @Mock
+    private MessageRepository messageRepository;
+    @Mock
     private JobOfferMapper jobOfferMapper;
     @Mock
     private EmploymentMapper employmentMapper;
@@ -47,6 +50,8 @@ class JobOfferServiceTest {
     private OperatingModeMapper operatingModeMapper;
     @Mock
     private ContactMapper contactMapper;
+    @Mock
+    private MessageMapper messageMapper;
     @Mock
     private JobOfferCriteriaRepository criteriaRepository;
 
@@ -114,9 +119,10 @@ class JobOfferServiceTest {
 
         Optional<Contact> contactMock = Optional.of(getContact());
 
-        when(contactRepository.findAllByPhoneAndEmail(
+        when(contactRepository.findAllByPhoneAndEmailAndName(
                 entityToSave.getContact().getPhone(),
-                entityToSave.getContact().getEmail()
+                entityToSave.getContact().getEmail(),
+                entityToSave.getContact().getName()
         )).thenReturn(contactMock);
 
         JobOffer jobOfferMock = getJobOffer();
@@ -134,9 +140,13 @@ class JobOfferServiceTest {
 
         when(jobOfferRepository.save(jobOfferMock)).thenReturn(jobOfferMock);
 
+        Message messageMock = getMessage();
+
+        when(messageMapper.toEntity(jobOfferMock)).thenReturn(messageMock);
 
         JobOfferMetadataDto savedJobOffer = jobOfferService.createJobOffer(entityToSave);
 
+        verify(messageRepository).save(messageMock);
         verify(jobOfferRepository).save(jobOfferMock);
         assertEquals(1, savedJobOffer.getId());
     }
@@ -200,9 +210,10 @@ class JobOfferServiceTest {
                 entityToSave.getEmployments().get(0), currencyMock, employmentTypeMock
         )).thenReturn(employmentMock);
 
-        when(contactRepository.findAllByPhoneAndEmail(
+        when(contactRepository.findAllByPhoneAndEmailAndName(
                 entityToSave.getContact().getPhone(),
-                entityToSave.getContact().getEmail()
+                entityToSave.getContact().getEmail(),
+                entityToSave.getContact().getName()
         )).thenReturn(Optional.empty());
 
         Contact contactMock = getContact();
@@ -226,9 +237,13 @@ class JobOfferServiceTest {
 
         when(jobOfferRepository.save(jobOfferMock)).thenReturn(jobOfferMock);
 
+        Message messageMock = getMessage();
+
+        when(messageMapper.toEntity(jobOfferMock)).thenReturn(messageMock);
 
         JobOfferMetadataDto savedJobOffer = jobOfferService.createJobOffer(entityToSave);
 
+        verify(messageRepository).save(messageMock);
         verify(contactRepository).save(contactMock);
         verify(jobOfferRepository).save(jobOfferMock);
 
@@ -421,5 +436,17 @@ class JobOfferServiceTest {
 
     private Currency getCurrency() {
         return new Currency(1, "PLN");
+    }
+
+    private Message getMessage() {
+        return new Message(
+                1,
+                "Junior Python developer needed asap",
+                "Some city, Some street",
+                "contac@email.com",
+                java.time.LocalDateTime.now(),
+                "John",
+                false
+        );
     }
 }
