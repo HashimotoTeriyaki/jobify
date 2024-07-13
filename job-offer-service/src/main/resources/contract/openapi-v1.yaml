@@ -1,10 +1,12 @@
 openapi: 3.0.3
 info:
-  title: Job offer Service
+  title: Jobify API
   version: 1.0.1
 tags:
-  - name: Basic
-    description: Basic CRUD operations on Job offers
+  - name: Job offer service
+    description:  A service providing basic CRUD operations for job offers.
+servers:
+  - url: http://localhost:9000
 components:
   schemas:
     JobOffer:
@@ -82,7 +84,7 @@ components:
             - b2b
             - permanent
             - mandate
-            - specific_task
+            - specific task
             - internship
         from:
           type: integer
@@ -155,56 +157,54 @@ components:
           type: string
           enum:
             - .net
-            - .net_4.5
-            - .net_c#
-            - .net_core
-            - .net_framework
-            - .net_mvc
+            - .net 4.5
+            - .net c#
+            - .net core
+            - .net framework
+            - .net mvc
             - 3d
             - abap
-            - active_directory
+            - active directory
             - activemq
-            - adobe_cc
-            - adobe_creative_suite
-            - adobe_photoshop
-            - adobe_xd
+            - adobe cc
+            - adobe creative suite
+            - adobe photoshop
+            - adobe xd
             - agile
             - ai
             - airflow
             - ajax
             - akka
             - algorithms
-            - amazon_aws
-            - amazon_web_services
-            - analityczne_myślenie
-            - analiza_biznesowa
-            - analytical_thinking
+            - amazon aws
+            - amazon web services
+            - analytical thinking
             - analytics
             - android
-            - android_sdk
-            - android_studio
+            - android sdk
+            - android studio
             - angular
-            - angular_2
-            - angular_2+
-            - angular_4
-            - angular_4+
-            - angular_5
-            - angular_5+
-            - angular_6
-            - angular_7
-            - angular_material
+            - angular 2
+            - angular 2+
+            - angular 4
+            - angular 4+
+            - angular 5
+            - angular 5+
+            - angular 6
+            - angular 7
+            - angular material
             - angularjs
             - ansible
             - apache
-            - apache_cordova
-            - apache_hadoop
-            - apache_jmeter
-            - apache_kafka
-            - apache_spark
-            - apache_tomcat
+            - apache cordova
+            - apache hadoop
+            - apache jmeter
+            - apache kafka
+            - apache spark
+            - apache tomcat
             - apex
             - api
-            - api_testing
+            - api testing
             - appium
             - ar
             - architecture
@@ -212,49 +212,49 @@ components:
             - artifactory
             - as400
             - asp.net
-            - asp.net_core
-            - asp.net_mvc
-            - asp.net_web_api
-            - async_programming
+            - asp.net core
+            - asp.net mvc
+            - asp.net web api
+            - async programming
             - asyncio
             - atlassian
-            - auto_layout
-            - automated_testing
-            - automation_tools
+            - auto layout
+            - automated testing
+            - automation tools
             - automotive
             - autosar
             - aws
-            - axure_rp
+            - axure rp
             - azure
-            - azure_devops
-            - azure_services
+            - azure devops
+            - azure services
             - babel
             - backbone.js
             - backend
             - bamboo
             - bash
-            - bazy_danych
+            - bazy danych
             - bdd
             - behat
             - bem
             - bi
-            - big_data
+            - big data
             - bigquery
             - bitbucket
             - blockchain
             - boost
             - bootstrap
-            - bootstrap_3
-            - bootstrap_4
+            - bootstrap 3
+            - bootstrap 4
             - bpm
             - bpmn
             - bpmn2
-            - business_analysis
-            - business_intelligence
+            - business analysis
+            - business intelligence
             - c
             - c#
             - c++
-            - c++_14
+            - c++ 14
             - c++11
             - canvas
             - cassandra
@@ -267,114 +267,114 @@ components:
             - ci
             - ci/cd
             - cisco
-            - clean_code
+            - clean code
             - clojure
             - cloud
-            - cloud_computing
+            - cloud computing
             - cmake
             - cms
             - cocoa
-            - cocoa_touch
+            - cocoa touch
             - cocoapods
-            - code_review
+            - code review
             - codeigniter
             - communication
-            - communication_skills
+            - communication skills
             - composer
-            - computer_vision
+            - computer vision
             - confluence
             - consul
-            - contact_with_a_client
+            - contact with a client
             - containers
-            - continuous_integration
-            - continuous_delivery
-            - core_data
+            - continuous integration
+            - continuous delivery
+            - core data
             - coredata
             - cqrs
             - crm
             - css
-            - css_3
-            - css_preprocessors
+            - css 3
+            - css preprocessors
             - css3
             - cucumber
-            - customer_support
+            - customer support
             - cybersecurity
             - cypress
             - dagger
-            - dagger_2
+            - dagger 2
             - dart
             - data
-            - data_integration
-            - data_modeling
-            - data_science
-            - data_warehousing
+            - data integration
+            - data modeling
+            - data science
+            - data warehousing
             - databases
             - databricks
             - dax
             - db2
             - ddd
             - debian
-            - deep_learning
-            - defining_requirements
+            - deep learning
+            - defining requirements
             - delphi
-            - design_patterns
-            - design_thinking
+            - design patterns
+            - design thinking
             - devexpress
             - devops
-            - devops_tools
+            - devops tools
             - dhcp
-            - distributed_systems
+            - distributed systems
             - django
-            - django_rest_framework
+            - django rest framework
             - dns
             - docker
             - doctrine
-            - doctrine_2
-            - domain-driven_design
+            - doctrine 2
+            - domain-driven design
             - drupal
             - dsp
             - dwh
             - e-commerce
             - eclipse
             - ecmascript
-            - ecmascript_6
+            - ecmascript 6
             - ef
             - ejb
             - elastic
             - elasticsearch
             - elixir
             - elk
-            - elk_stack
+            - elk stack
             - embedded
-            - embedded_c
-            - embedded_systems
+            - embedded c
+            - embedded systems
             - ember
             - ember.js
             - english
             - enterprise
-            - enterprise_architect
+            - enterprise architect
             - entity
-            - entity_framework
+            - entity framework
             - erp
-            - es_2015+
+            - es 2015+
             - es6
             - es6+
-            - es6+_syntax
+            - es6+ syntax
             - es7
             - esb
             - espresso
             - ethereum
             - etl
-            - etl_tools
-            - event_sourcing
-            - event_storming
-            - event_streaming
-            - event-driven_architecture
+            - etl tools
+            - event sourcing
+            - event storming
+            - event streaming
+            - event-driven architecture
             - eventstore
             - excel
             - express.js
-            - ext_js
-            - facebook_api
+            - ext js
+            - facebook api
             - fastlane
             - figma
             - firebase
@@ -386,8 +386,8 @@ components:
             - french
             - front-end
             - frp
-            - functional_programming
-            - functional_testing
+            - functional programming
+            - functional testing
             - gatling
             - gcp
             - german
@@ -399,11 +399,11 @@ components:
             - gitlab
             - go
             - golang
-            - google_analytics
-            - google_cloud
-            - google_cloud_platform
-            - google_maps_api
-            - google_play
+            - google analytics
+            - google cloud
+            - google cloud platform
+            - google maps api
+            - google play
             - gradle
             - grafana
             - grails
@@ -426,12 +426,12 @@ components:
             - heroku
             - hibernate
             - hive
-            - hp_alm
+            - hp alm
             - html
             - html5
-            - html5_/_css3
+            - html5 / css3
             - http
-            - http_protocol
+            - http protocol
             - https
             - hybris
             - hyper-v
@@ -439,39 +439,39 @@ components:
             - ibm
             - iis
             - illustrator
-            - image_processing
+            - image processing
             - indesign
             - influxdb
             - informatica
-            - informatica_powercenter
-            - information_security
+            - informatica powercenter
+            - information security
             - integration
             - intellij
             - invision
             - ionic
             - ios
-            - ios_frameworks
-            - ios_sdk
+            - ios frameworks
+            - ios sdk
             - iot
             - ip
-            - ip_networks
+            - ip networks
             - istqb
-            - istqb_foundation
+            - istqb foundation
             - it
-            - it_security
-            - it_support
+            - it security
+            - it support
             - itil
             - j2ee
             - jasmine
             - java
-            - java_11
-            - java_8
-            - java_8+
-            - java_ee
-            - java_se
+            - java 11
+            - java 8
+            - java 8+
+            - java ee
+            - java se
             - javascript
-            - javascript_(jquery
-            - javascript_framework
+            - javascript (jquery
+            - javascript framework
             - jbehave
             - jboss
             - jdbc
@@ -485,8 +485,8 @@ components:
             - jpa
             - jquery
             - js
-            - js_es6
-            - js_frameworks
+            - js es6
+            - js frameworks
             - jsf
             - json
             - jsp
@@ -504,67 +504,67 @@ components:
             - kvm
             - lan
             - laravel
-            - laravel_mix
+            - laravel mix
             - leadership
             - lean
             - less
             - lightning
             - linq
             - linux
-            - linux_(debian
-            - linux_/_unix
-            - linux_kernel
-            - linux_networking
-            - linux_os
+            - linux (debian
+            - linux / unix
+            - linux kernel
+            - linux networking
+            - linux os
             - loadrunner
-            - mac_os
-            - machine_learning
+            - mac os
+            - machine learning
             - magento
-            - magento_2
+            - magento 2
             - management
-            - manual_testing
+            - manual testing
             - mariadb
-            - material_design
+            - material design
             - matlab
             - maven
             - memcached
             - mercurial
             - mesos
-            - microservice_architecture
+            - microservice architecture
             - microservices
             - microsoft
-            - microsoft_365
-            - microsoft_azure
-            - microsoft_azure_cloud
-            - microsoft_office
-            - microsoft_sql
-            - microsoft_visual_studio
-            - microsoft_windows
+            - microsoft 365
+            - microsoft azure
+            - microsoft azure cloud
+            - microsoft office
+            - microsoft sql
+            - microsoft visual studio
+            - microsoft windows
             - mobile
-            - mobile_app_testing
-            - mobile_apps
-            - mobile_development
+            - mobile app testing
+            - mobile apps
+            - mobile development
             - mobx
             - mocha
             - mockito
             - mongodb
-            - monitoring_systems
-            - monitoring_tools
+            - monitoring systems
+            - monitoring tools
             - mq
-            - ms_azure
-            - ms_excel
-            - ms_exchange
-            - ms_office
-            - ms_project
-            - ms_sql
-            - ms_sql_server
+            - ms azure
+            - ms excel
+            - ms exchange
+            - ms office
+            - ms project
+            - ms sql
+            - ms sql server
             - mssql
             - mule
             - mulesoft
-            - multi_browser_testing
+            - multi browser testing
             - mvc
-            - mvc_frameworks
-            - mvc_pattern
+            - mvc frameworks
+            - mvc pattern
             - mvp
             - mvvm
             - mysql
@@ -572,8 +572,8 @@ components:
             - nest.js
             - nestjs
             - network
-            - network_administration
-            - network_protocols
+            - network administration
+            - network protocols
             - networking
             - networks
             - next.js
@@ -585,7 +585,7 @@ components:
             - nlp
             - node
             - node.js
-            - node.js_express
+            - node.js express
             - nodejs
             - nosql
             - npm
@@ -593,34 +593,34 @@ components:
             - nunit
             - objective-c
             - octopus
-            - office_365
-            - offline_storage
+            - office 365
+            - offline storage
             - olap
             - ood
             - oop
-            - open_source
+            - open source
             - opencv
             - opengl
             - openshift
             - openstack
             - oracle
-            - oracle_db
-            - oracle_sql
-            - oracle_weblogic
+            - oracle db
+            - oracle sql
+            - oracle weblogic
             - orm
-            - os_x_linux
+            - os x linux
             - owasp
             - pandas
             - pentaho
-            - people_management
+            - people management
             - perl
             - photoshop
             - php
-            - php_5
-            - php_5.4
-            - php_7
-            - php_7.x
-            - php_8
+            - php 5
+            - php 5.4
+            - php 7
+            - php 7.x
+            - php 8
             - phpunit
             - pl/sql
             - playwright
@@ -629,68 +629,68 @@ components:
             - postgresql
             - postman
             - postresql
-            - power_bi
+            - power bi
             - powershell
             - prestashop
             - prince2
             - proactivity
-            - problem_solving
-            - product_management
+            - problem solving
+            - product management
             - programming
-            - project_management
+            - project management
             - prometheus
             - prototyping
             - protractor
             - puppet
-            - push_notifications
+            - push notifications
             - pwa
             - pyqt
             - pyspark
             - pytest
             - python
-            - python_3
-            - python_3.x
+            - python 3
+            - python 3.x
             - pytorch
             - qa
             - qt
-            - quality_assurance
+            - quality assurance
             - r
             - rabbitmq
             - rails
             - razor
             - rdbms
             - react
-            - react_native
-            - reactive_programming
+            - react native
+            - reactive programming
             - reactjs
             - realm
             - reason
-            - red_hat
+            - red hat
             - redis
             - redmine
             - redux
-            - relacyjne_bazy_danych
-            - relational_databases
-            - responsive_web_design
+            - relacyjne bazy danych
+            - relational databases
+            - responsive web design
             - rest
-            - rest_api
-            - rest_services
+            - rest api
+            - rest services
             - restful
-            - restful_api
+            - restful api
             - retrofit
-            - risk_management
-            - robot_framework
+            - risk management
+            - robot framework
             - routing
             - rpa
             - rpg
             - rspec
             - rtos
             - ruby
-            - ruby_on_rails
+            - ruby on rails
             - rust
             - rwd
             - rxjava
-            - rxjava_2
+            - rxjava 2
             - rxjs
             - rxkotlin
             - rxswift
@@ -698,29 +698,29 @@ components:
             - sales
             - salesforce
             - sap
-            - sap_bo
-            - sap_hana
-            - sap_mm
-            - sap_sd
+            - sap bo
+            - sap hana
+            - sap mm
+            - sap sd
             - sas
             - sass
-            - sass_(bem
+            - sass (bem
             - scala
             - scrapy
             - scripting
             - scrum
-            - scrum_master
+            - scrum master
             - scss
             - sdlc
             - security
             - selenium
-            - selenium_webdriver
+            - selenium webdriver
             - seo
             - serverless
             - servicenow
             - sharepoint
             - shell
-            - shell_scripting
+            - shell scripting
             - shopify
             - siem
             - sip
@@ -730,12 +730,12 @@ components:
             - soa
             - soap
             - soapui
-            - social_media
+            - social media
             - socket.io
-            - software_architecture
-            - software_development
+            - software architecture
+            - software development
             - solid
-            - solid_principles
+            - solid principles
             - solidity
             - solr
             - sonar
@@ -745,12 +745,12 @@ components:
             - splunk
             - spock
             - spring
-            - spring_5
-            - spring_boot
-            - spring_cloud
-            - spring_mvc
+            - spring 5
+            - spring boot
+            - spring cloud
+            - spring mvc
             - sql
-            - sql_server
+            - sql server
             - sqlalchemy
             - sqlite
             - ssas
@@ -765,9 +765,9 @@ components:
             - swiftui
             - swing
             - symfony
-            - symfony_2
-            - symfony_3
-            - symfony_4
+            - symfony 2
+            - symfony 3
+            - symfony 4
             - symphony
             - t-sql
             - tableau
@@ -775,25 +775,25 @@ components:
             - tcp
             - tcp/ip
             - tdd
-            - team_leadership
-            - team_management
-            - team_player
+            - team leadership
+            - team management
+            - team player
             - teamcity
             - teamwork
             - telco
             - tensorflow
             - teradata
             - terraform
-            - test_automation
-            - test_cases
-            - test_planning
-            - test_scenarios
+            - test automation
+            - test cases
+            - test planning
+            - test scenarios
             - testing
-            - testing_mobile_apps
-            - testing_tools
+            - testing mobile apps
+            - testing tools
             - testlink
             - testrail
-            - testy_funkcjonalne
+            - testy funkcjonalne
             - tfs
             - togaf
             - tomcat
@@ -803,22 +803,22 @@ components:
             - typescript
             - ubuntu
             - ui
-            - ui_design
+            - ui design
             - uikit
             - uipath
             - uml
-            - unit_testing
+            - unit testing
             - unity
-            - unity_3d
+            - unity 3d
             - unix
-            - unreal_engine
-            - unreal_engine_4
-            - usability_testing
-            - user_interface
-            - user_stories
+            - unreal engine
+            - unreal engine 4
+            - usability testing
+            - user interface
+            - user stories
             - ux
-            - ux_design
-            - ux_research
+            - ux design
+            - ux research
             - ux/ui
             - uxpin
             - vaadin
@@ -827,21 +827,21 @@ components:
             - vb.net
             - vba
             - virtualization
-            - visual_basic
-            - visual_studio
+            - visual basic
+            - visual studio
             - vmware
             - voip
             - vpn
             - vue
             - vue.js
             - wcf
-            - web_api
-            - web_application_testing
-            - web_applications
-            - web_development
-            - web_services
+            - web api
+            - web application testing
+            - web applications
+            - web development
+            - web services
             - webcon
-            - webcon_bps
+            - webcon bps
             - webdriver
             - webgl
             - weblogic
@@ -852,16 +852,16 @@ components:
             - websphere
             - wildfly
             - windows
-            - windows_10
-            - windows_administration
-            - windows_forms
-            - windows_server
+            - windows 10
+            - windows administration
+            - windows forms
+            - windows server
             - winforms
             - woocommerce
             - wordpress
             - wpf
-            - writing_test_cases
-            - writing_test_scenarios
+            - writing test cases
+            - writing test scenarios
             - xamarin
             - xcode
             - xml
@@ -872,8 +872,8 @@ components:
             - yii
             - zabbix
             - zend
-            - zend_expressive
-            - zend_framework
+            - zend expressive
+            - zend framework
             - zeplin
             - zmq
         level:
@@ -899,8 +899,8 @@ components:
     TypeOfWork:
       type: string
       enum:
-        - full_time
-        - part_time
+        - full time
+        - part time
         - internship
         - freelance
     Currency:
@@ -1081,7 +1081,7 @@ components:
         remoteInterview: true
         experienceLevel: senior
         mainTechnology: java
-        typeOfWork: full_time
+        typeOfWork: full time
         employments:
           - type: permanent
             from: 10000
@@ -1098,9 +1098,9 @@ components:
         requiredSkills:
           - name: java
             level: 5
-          - name: spring_boot
+          - name: spring boot
             level: 4
-          - name: apache_kafka
+          - name: apache kafka
             level: 5
         applyUrl: https://www.example.com
         contact:
@@ -1117,7 +1117,7 @@ components:
         description: Lorem ipsum dolor sit amet, consectetur adipiscing elit
         experienceLevel: junior
         mainTechnology: python
-        typeOfWork: full_time
+        typeOfWork: full time
         employments:
           - type: permanent
             currency: pln
@@ -1141,7 +1141,7 @@ components:
         remoteInterview: true
         experienceLevel: senior
         mainTechnology: java
-        typeOfWork: full_time
+        typeOfWork: full time
         employments:
           - type: permanent
             from: 10000
@@ -1158,9 +1158,9 @@ components:
         requiredSkills:
           - name: java
             level: 5
-          - name: spring_boot
+          - name: spring boot
             level: 4
-          - name: apache_kafka
+          - name: apache kafka
             level: 5
     SimpleJobOffer:
       value:
@@ -1185,8 +1185,8 @@ components:
       schema:
         type: string
         enum:
-          - full_time
-          - part_time
+          - full time
+          - part time
           - internship
           - freelance
     query-param-job-offer-employment-type:
@@ -1201,7 +1201,7 @@ components:
           - permanent
           - internship
           - mandate
-          - specific_task
+          - specific task
     query-param-job-offer-main-technology:
       name: technology
       description: Main technology filter
@@ -1313,7 +1313,7 @@ paths:
         - $ref: '#/components/parameters/query-param-page-size'
       summary: Searches for job offers by parameter and returns an Array
       tags:
-        - Basic
+        - Job offer service
       responses:
         '200':
           description: Array of found job offers
@@ -1330,7 +1330,7 @@ paths:
     post:
       operationId: createJobOffer
       tags:
-        - Basic
+        - Job offer service
       summary: Creates a new job offer
       requestBody:
         required: true
@@ -1368,7 +1368,7 @@ paths:
       operationId: deleteJobOffer
       summary: Deletes a job offer
       tags:
-        - Basic
+        - Job offer service
       parameters:
         - $ref: '#/components/parameters/path-param-job-offer-id'
       responses:
@@ -1382,9 +1382,9 @@ paths:
                 $ref: '#/components/schemas/Error'
     put:
       operationId: updateJobOffer
-      summary: Updates an job offer
+      summary: Updates a job offer
       tags:
-        - Basic
+        - Job offer service
       parameters:
         - $ref: '#/components/parameters/path-param-job-offer-id'
       requestBody:
@@ -1409,9 +1409,9 @@ paths:
                 $ref: '#/components/schemas/Error'
     get:
       operationId: findJobOffer
-      summary: Returns an job offer
+      summary: Returns a job offer
       tags:
-        - Basic
+        - Job offer service
       parameters:
         - $ref: '#/components/parameters/path-param-job-offer-id'
       responses:

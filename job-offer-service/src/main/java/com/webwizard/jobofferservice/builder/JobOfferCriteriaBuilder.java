@@ -112,7 +112,7 @@ public class JobOfferCriteriaBuilder {
     }
 
     public CriteriaQuery<JobOffer> build() {
-        query.select(jobOfferRoot);
+        query.select(jobOfferRoot).distinct(true);
         if (!predicates.isEmpty()) {
             query.where(predicates.toArray(new Predicate[0]));
         }

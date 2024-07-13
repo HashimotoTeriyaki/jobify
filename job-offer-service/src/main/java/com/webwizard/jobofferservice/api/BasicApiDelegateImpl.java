@@ -1,6 +1,6 @@
 package com.webwizard.jobofferservice.api;
 
-import com.webwizard.jobofferservice.openapi.v1.BasicApiDelegate;
+import com.webwizard.jobofferservice.openapi.v1.JobOfferServiceApiDelegate;
 import com.webwizard.jobofferservice.openapi.v1.model.*;
 import com.webwizard.jobofferservice.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class BasicApiDelegateImpl implements BasicApiDelegate {
+public class BasicApiDelegateImpl implements JobOfferServiceApiDelegate {
 
     private final JobOfferService jobOfferService;
 

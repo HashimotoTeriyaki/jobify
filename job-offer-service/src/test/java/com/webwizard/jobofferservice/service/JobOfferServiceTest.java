@@ -7,13 +7,14 @@ import com.webwizard.jobofferservice.model.*;
 import com.webwizard.jobofferservice.model.message.Message;
 import com.webwizard.jobofferservice.openapi.v1.model.*;
 import com.webwizard.jobofferservice.repository.*;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
+import static com.webwizard.jobofferservice.testUtils.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -58,30 +59,39 @@ class JobOfferServiceTest {
     @InjectMocks
     private JobOfferService jobOfferService;
 
+    private JobOffer jobOfferMock;
+    private JobOfferDto entityToSave;
+    private MainTechnology mainTechnologyMock;
+    private TypeOfWork typeOfWorkMock;
+    private ExperienceLevel experienceMock;
+    private OperatingMode operatingModeMock;
+    private OfferOperatingMode offerOperatingModeMock;
+
+    @BeforeEach
+    void setUp() {
+        jobOfferMock = getJobOffer(1, "java", "full time");
+        entityToSave = getJobOfferDto();
+        mainTechnologyMock = getMainTechnology("java");
+        typeOfWorkMock = getTypeOfWork("full time");
+        experienceMock = getExperience();
+        operatingModeMock = getOperatingMode();
+        offerOperatingModeMock = new OfferOperatingMode(1, operatingModeMock);
+    }
+
     @Test
     void createJobOffer_withRequestBodyAndExistingContact_savesEntity() {
-        JobOfferDto entityToSave = getJobOfferDto();
-
-        MainTechnology mainTechnologyMock = getMainTechnology();
 
         when(mainTechnologyRepository.findFirstByName(
                 entityToSave.getMainTechnology().getValue().toUpperCase()
         )).thenReturn(mainTechnologyMock);
 
-        TypeOfWork typeOfWorkMock = getTypeOfWork();
-
         when(typeOfWorkRepository.findFirstByName(
                 entityToSave.getTypeOfWork().getValue().toUpperCase()
         )).thenReturn(typeOfWorkMock);
 
-        ExperienceLevel experienceMock = getExperience();
-
         when(experienceLevelRepository.findFirstByLevel(
                 entityToSave.getExperienceLevel().getValue().toUpperCase()
         )).thenReturn(experienceMock);
-
-        OperatingMode operatingModeMock = getOperatingMode();
-        OfferOperatingMode offerOperatingModeMock = new OfferOperatingMode(1, operatingModeMock);
 
         when(operatingModeRepository.findFirstByName(
                 entityToSave.getOperatingModes().get(0).getValue().toUpperCase())
@@ -125,8 +135,6 @@ class JobOfferServiceTest {
                 entityToSave.getContact().getName()
         )).thenReturn(contactMock);
 
-        JobOffer jobOfferMock = getJobOffer();
-
         when(jobOfferMapper.toEntity(
                 entityToSave,
                 mainTechnologyMock,
@@ -153,28 +161,18 @@ class JobOfferServiceTest {
 
     @Test
     void createJobOffer_withRequestBodyNotExistingContact_savesEntityAndCreatesContact() {
-        JobOfferDto entityToSave = getJobOfferDto();
-
-        MainTechnology mainTechnologyMock = getMainTechnology();
 
         when(mainTechnologyRepository.findFirstByName(
                 entityToSave.getMainTechnology().getValue().toUpperCase()
         )).thenReturn(mainTechnologyMock);
 
-        TypeOfWork typeOfWorkMock = getTypeOfWork();
-
         when(typeOfWorkRepository.findFirstByName(
                 entityToSave.getTypeOfWork().getValue().toUpperCase()
         )).thenReturn(typeOfWorkMock);
 
-        ExperienceLevel experienceMock = getExperience();
-
         when(experienceLevelRepository.findFirstByLevel(
                 entityToSave.getExperienceLevel().getValue().toUpperCase()
         )).thenReturn(experienceMock);
-
-        OperatingMode operatingModeMock = getOperatingMode();
-        OfferOperatingMode offerOperatingModeMock = new OfferOperatingMode(1, operatingModeMock);
 
         when(operatingModeRepository.findFirstByName(
                 entityToSave.getOperatingModes().get(0).getValue().toUpperCase())
@@ -222,8 +220,6 @@ class JobOfferServiceTest {
 
         when(contactRepository.save(contactMock)).thenReturn(contactMock);
 
-        JobOffer jobOfferMock = getJobOffer();
-
         when(jobOfferMapper.toEntity(
                 entityToSave,
                 mainTechnologyMock,
@@ -252,7 +248,7 @@ class JobOfferServiceTest {
 
     @Test
     void findOfferByFilters() {
-        List<JobOffer> foundJobOffersMock = List.of(getJobOffer());
+        List<JobOffer> foundJobOffersMock = List.of(jobOfferMock);
 
         when(criteriaRepository.findAllByFilters(
                 null, null,
@@ -266,7 +262,8 @@ class JobOfferServiceTest {
         SimpleJobOfferDto simpleJobOfferMock = getSimpleJobOfferDto();
         when(jobOfferMapper.toSimpleDto(foundJobOffersMock.get(0))).thenReturn(simpleJobOfferMock);
 
-        List<SimpleJobOfferDto> offerByFilters = jobOfferService.findOfferByFilters(null, null,
+        List<SimpleJobOfferDto> offerByFilters = jobOfferService.findOfferByFilters(
+                null, null,
                 "python", "permanent",
                 "junior", null,
                 null, "createdDate",
@@ -292,17 +289,10 @@ class JobOfferServiceTest {
     void findJobOfferById_withExistingId_returnsMatchingJobOffer() {
         Integer existingId = 1;
 
-        JobOffer foundJobOffer = JobOffer.builder()
-                .id(existingId)
-                .build();
+        FetchedJobOfferDto fetchedJobOfferDto = getFetchedJobOfferDto();
 
-        FetchedJobOfferDto fetchedJobOfferDto = FetchedJobOfferDto.builder()
-                .title("Senior java developer needed asap")
-                .city("Warsaw")
-                .build();
-
-        when(jobOfferRepository.findById(existingId)).thenReturn(Optional.of(foundJobOffer));
-        when(jobOfferMapper.toDto(foundJobOffer)).thenReturn(fetchedJobOfferDto);
+        when(jobOfferRepository.findById(existingId)).thenReturn(Optional.of(jobOfferMock));
+        when(jobOfferMapper.toDto(jobOfferMock)).thenReturn(fetchedJobOfferDto);
 
         FetchedJobOfferDto actualJobOffer = jobOfferService.findJobOfferById(existingId);
 
@@ -332,121 +322,5 @@ class JobOfferServiceTest {
 
         assertEquals("Job offer with id: 321 not found", exception.getMessage());
         assertEquals(400, exception.getCode());
-    }
-
-    private JobOfferDto getJobOfferDto() {
-        return JobOfferDto.builder()
-                .title("Junior Python developer needed asap")
-                .companyName("Some company name")
-                .city("Some city")
-                .street("Some street")
-                .description("Lorem ipsum dolor sit amet, consectetur adipiscing elit")
-                .experienceLevel(ExperienceLevelDto.JUNIOR)
-                .mainTechnology(MainTechnologyDto.PYTHON)
-                .typeOfWork(TypeOfWorkDto.FULL_TIME)
-                .employments(List.of(
-                        EmploymentDto.builder().type(EmploymentDto.TypeEnum.PERMANENT).currency(CurrencyDto.PLN).build()
-                ))
-                .operatingModes(List.of(OperatingModeDto.OFFICE))
-                .requiredSkills(List.of(new RequiredSkillDto(RequiredSkillDto.NameEnum.PYTHON, 5)))
-                .contact(new ContactDto("John", "Doe", "contac@email.com", "+48123456789"))
-                .build();
-    }
-
-    private JobOffer getJobOffer() {
-        return JobOffer.builder()
-                .id(1)
-                .title("Junior Python developer needed asap")
-                .companyName("Some company name")
-                .city("Some city")
-                .street("Some street")
-                .description("Lorem ipsum dolor sit amet, consectetur adipiscing elit")
-                .contact(getContact())
-                .mainTechnology(getMainTechnology())
-                .typeOfWork(getTypeOfWork())
-                .experienceLevel(getExperience())
-                .offerOperatingModes(List.of(
-                        new OfferOperatingMode(1, getOperatingMode())
-                ))
-                .requiredSkills(List.of(new RequiredSkill(1, new Skill(494, "PYTHON"), 5)))
-                .employments(List.of(new Employment(1, 0, 0, getEmploymentType(), getCurrency())))
-                .build();
-    }
-
-    private SimpleJobOfferDto getSimpleJobOfferDto() {
-        return SimpleJobOfferDto.builder()
-                .title("Junior Python developer needed asap")
-                .companyName("Some company name")
-                .city("Some city")
-                .mainTechnology(MainTechnologyDto.PYTHON)
-                .employments(List.of(
-                        EmploymentDto.builder().type(EmploymentDto.TypeEnum.PERMANENT).currency(CurrencyDto.PLN).build()
-                ))
-                .operatingModes(List.of(OperatingModeDto.OFFICE))
-                .requiredSkills(List.of("python"))
-                .build();
-    }
-
-    private TypeOfWork getTypeOfWork() {
-        return new TypeOfWork(
-                1,
-                "FULL_TIME",
-                "An employment in which workers work a minimum number of hours defined as such by their employer."
-        );
-    }
-
-    private EmploymentType getEmploymentType() {
-        return new EmploymentType(
-                1,
-                "PERMANENT",
-                "Permanent employment is a long-term employment arrangement where an individual is hired " +
-                        "without a predetermined end date, typically providing job security, benefits, and a stable income."
-        );
-    }
-
-    private ExperienceLevel getExperience() {
-        return new ExperienceLevel(
-                1,
-                "JUNIOR",
-                "Entry-level position typically held by individuals with limited experience or fresh graduates."
-        );
-    }
-
-    private OperatingMode getOperatingMode() {
-        return new OperatingMode(
-                3,
-                "OFFICE",
-                "Employees work primarily from the office location, adhering to a traditional in-office work setup."
-        );
-    }
-
-    private Contact getContact() {
-        return new Contact(
-                1,
-                "John",
-                "Doe",
-                "contac@email.com",
-                "+48123456789"
-        );
-    }
-
-    private MainTechnology getMainTechnology() {
-        return new MainTechnology(5, "PYTHON");
-    }
-
-    private Currency getCurrency() {
-        return new Currency(1, "PLN");
-    }
-
-    private Message getMessage() {
-        return new Message(
-                1,
-                "Junior Python developer needed asap",
-                "Some city, Some street",
-                "contac@email.com",
-                java.time.LocalDateTime.now(),
-                "John",
-                false
-        );
     }
 }
